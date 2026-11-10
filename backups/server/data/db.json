@@ -1,0 +1,907 @@
+{
+  "branches": [
+    {
+      "id": "br-madhavaram",
+      "name": "Madhavaram Main Branch",
+      "code": "MDV",
+      "city": "Chennai",
+      "address": "No. 42, GNT Road, Near Bus Terminus, Madhavaram, Chennai - 600060",
+      "phone": "+91 98401 23456",
+      "isActive": true,
+      "isPrimary": true
+    },
+    {
+      "id": "br-sharma-nagar",
+      "name": "Sharma Nagar Extension",
+      "code": "SHR",
+      "city": "Chennai",
+      "address": "Plot 15, Kamarajar Salai, Sharma Nagar, Chennai - 600039",
+      "phone": "+91 98402 34567",
+      "isActive": false,
+      "isPrimary": false
+    },
+    {
+      "id": "br-broadway",
+      "name": "Broadway Commercial Hub",
+      "code": "BDW",
+      "city": "Chennai",
+      "address": "Shop 8, Prakasam Salai, Broadway, Chennai - 600108",
+      "phone": "+91 98403 45678",
+      "isActive": false,
+      "isPrimary": false
+    }
+  ],
+  "users": [
+    {
+      "id": "usr-karthik",
+      "name": "Karthikeyan R.",
+      "email": "karthik@annaidigtal.in",
+      "role": "OWNER",
+      "branchId": "br-madhavaram"
+    },
+    {
+      "id": "usr-praveen",
+      "name": "Praveen Kumar",
+      "email": "praveen.pos@annaidigtal.in",
+      "role": "BILLING_OPERATOR",
+      "branchId": "br-madhavaram"
+    },
+    {
+      "id": "usr-suresh",
+      "name": "Suresh Babu",
+      "email": "suresh.prod@annaidigtal.in",
+      "role": "PRODUCTION_STAFF",
+      "branchId": "br-madhavaram"
+    },
+    {
+      "id": "usr-meenakshi",
+      "name": "Meenakshi Sundaram",
+      "email": "accounts@annaidigtal.in",
+      "role": "ACCOUNTANT",
+      "branchId": "br-madhavaram"
+    }
+  ],
+  "sectors": [
+    {
+      "id": "sec-1",
+      "name": "Sector 1 — Solvent & Heavy Format",
+      "code": "SEC-1",
+      "branchId": "br-madhavaram",
+      "description": "High-speed 3.2m solvent printing for hoardings, star flex banners, and shop drop banners.",
+      "machinery": "Flora LJ 320P 3.2m Solvent Printer (4 Spectra Polaris Heads)",
+      "maxDailyCapacity": 4500,
+      "currentPendingJobs": 1,
+      "capabilities": [
+        "srv-flex",
+        "srv-vinyl"
+      ],
+      "color": "#2563EB"
+    },
+    {
+      "id": "sec-2",
+      "name": "Sector 2 — Eco-Solvent & Precision Vinyl",
+      "code": "SEC-2",
+      "branchId": "br-madhavaram",
+      "description": "Ultra high-definition eco-solvent printing for frosted film, vehicle vinyl wraps, and packaging stickers.",
+      "machinery": "Mimaki CJV150-160 Integrated Print & Cut Machine",
+      "maxDailyCapacity": 1200,
+      "currentPendingJobs": 1,
+      "capabilities": [
+        "srv-vinyl",
+        "srv-stickers"
+      ],
+      "color": "#7C3AED"
+    },
+    {
+      "id": "sec-3",
+      "name": "Sector 3 — Digital Production Press & Signage",
+      "code": "SEC-3",
+      "branchId": "br-madhavaram",
+      "description": "High-speed multi-color digital paper press and CNC acrylic channel lettering.",
+      "machinery": "Konica Minolta AccurioPress C4070 + 60W CO2 Laser Engraver",
+      "maxDailyCapacity": 15000,
+      "currentPendingJobs": 2,
+      "capabilities": [
+        "srv-cards",
+        "srv-brochures",
+        "srv-acrylic",
+        "srv-stickers"
+      ],
+      "color": "#0D9488"
+    }
+  ],
+  "services": [
+    {
+      "id": "srv-flex",
+      "name": "Star Flex Banner Printing",
+      "category": "banner",
+      "unitType": "sqft",
+      "defaultRate": 18,
+      "setupCost": 50,
+      "minOrderQty": 10,
+      "eligibleSectorIds": [
+        "sec-1"
+      ],
+      "materials": [
+        "Frontlit Regular 280gsm",
+        "Star Flex 340gsm Heavy",
+        "Blackout Flex 440gsm",
+        "Backlit Glow Flex"
+      ],
+      "finishes": [
+        "Heat Welded Border + Metal Eyelets",
+        "Pocket Fold for Pole",
+        "Plain Cut"
+      ],
+      "requiresArtworkApproval": true,
+      "popularDimensions": [
+        "10x4 ft",
+        "8x3 ft",
+        "6x3 ft",
+        "12x6 ft",
+        "20x10 ft"
+      ],
+      "description": "Durable outdoor weatherproof banners for shopfronts, events, and roadside promotions."
+    },
+    {
+      "id": "srv-cards",
+      "name": "Premium Visiting Cards",
+      "category": "cards",
+      "unitType": "units",
+      "defaultRate": 450,
+      "setupCost": 0,
+      "minOrderQty": 500,
+      "eligibleSectorIds": [
+        "sec-3"
+      ],
+      "materials": [
+        "350gsm Art Card",
+        "400gsm Velvet Board",
+        "Frosted Transparent PVC",
+        "Metallic Pearl Sheet"
+      ],
+      "finishes": [
+        "Matte Thermal Lamination",
+        "Glossy UV Coat",
+        "Spot UV & Gold Foil",
+        "Round Corners (4mm)"
+      ],
+      "requiresArtworkApproval": true,
+      "popularDimensions": [
+        "3.5x2 inches (Standard)",
+        "3.5x2.25 inches (Full Bleed)"
+      ],
+      "description": "Sharp, vibrant corporate business cards with luxury lamination and spot effects."
+    },
+    {
+      "id": "srv-vinyl",
+      "name": "Vinyl Printing & Sunpack Mounting",
+      "category": "vinyl",
+      "unitType": "sqft",
+      "defaultRate": 42,
+      "setupCost": 80,
+      "minOrderQty": 6,
+      "eligibleSectorIds": [
+        "sec-1",
+        "sec-2"
+      ],
+      "materials": [
+        "Avery Dennison Self-Adhesive Vinyl",
+        "Clear Transparent Film",
+        "One-Way Vision Perforated Film",
+        "Reflective Sheeting"
+      ],
+      "finishes": [
+        "Cold Matte Over-Lamination",
+        "Mounted on 3mm Sunboard",
+        "Mounted on 5mm Sunboard",
+        "Kiss-cut Contour"
+      ],
+      "requiresArtworkApproval": true,
+      "popularDimensions": [
+        "4x3 ft",
+        "3x2 ft",
+        "6x4 ft",
+        "2x1.5 ft"
+      ],
+      "description": "High-tack self-adhesive prints mounted onto rigid sunboards or applied directly to glass & counters."
+    },
+    {
+      "id": "srv-stickers",
+      "name": "Custom Die-Cut Waterproof Stickers",
+      "category": "stickers",
+      "unitType": "units",
+      "defaultRate": 3.5,
+      "setupCost": 100,
+      "minOrderQty": 100,
+      "eligibleSectorIds": [
+        "sec-2",
+        "sec-3"
+      ],
+      "materials": [
+        "Glossy White Vinyl",
+        "Matte Waterproof Synthetic",
+        "Transparent Clear Film",
+        "Silver Chrome Foil"
+      ],
+      "finishes": [
+        "Contour Cut (Custom Shape)",
+        "Kiss Cut Sheets",
+        "UV Resin Dome"
+      ],
+      "requiresArtworkApproval": false,
+      "popularDimensions": [
+        "2x2 inch Circle",
+        "3x2 inch Rectangle",
+        "2.5x2.5 inch Square"
+      ],
+      "description": "Waterproof, tear-resistant custom shaped decals for FMCG product packaging and brand labels."
+    },
+    {
+      "id": "srv-acrylic",
+      "name": "3D Acrylic LED Glow Signboard",
+      "category": "signage",
+      "unitType": "sqft",
+      "defaultRate": 175,
+      "setupCost": 350,
+      "minOrderQty": 4,
+      "eligibleSectorIds": [
+        "sec-3"
+      ],
+      "materials": [
+        "3mm Cast Acrylic Sheet",
+        "5mm Solid Acrylic",
+        "ACP Cladding Sheet Base",
+        "Samsung Waterproof LED Modules"
+      ],
+      "finishes": [
+        "Laser Cut Letters",
+        "Raised Lettering on ACP",
+        "Edge Lit Acrylic Glow",
+        "Frontlit Channel Letters"
+      ],
+      "requiresArtworkApproval": true,
+      "popularDimensions": [
+        "6x3 ft",
+        "8x3 ft",
+        "10x4 ft",
+        "12x4 ft"
+      ],
+      "description": "High-impact illumination 3D letter signboards with IP68 waterproof LED lighting for modern retail."
+    },
+    {
+      "id": "srv-brochures",
+      "name": "Tri-Fold Brochures & Flyers",
+      "category": "stationery",
+      "unitType": "units",
+      "defaultRate": 1100,
+      "setupCost": 0,
+      "minOrderQty": 250,
+      "eligibleSectorIds": [
+        "sec-3"
+      ],
+      "materials": [
+        "130gsm Gloss Art Paper",
+        "170gsm Royal Matte Paper",
+        "250gsm Heavy Art Card"
+      ],
+      "finishes": [
+        "Center Crease & Tri-fold",
+        "Bi-Fold Single Crease",
+        "Flat Trim"
+      ],
+      "requiresArtworkApproval": true,
+      "popularDimensions": [
+        "A4 Tri-Fold (8.5x11 in)",
+        "A5 Flat Flyer (5.8x8.3 in)",
+        "A4 Flat Catalog Sheet"
+      ],
+      "description": "Full-color promotional pamphlets and corporate profile folders for exhibitions and marketing campaigns."
+    }
+  ],
+  "designs": [
+    {
+      "id": "dsg-b1",
+      "code": "FLEX-GRAND-01",
+      "title": "Grand Opening Ceremonial Arch",
+      "category": "banner",
+      "serviceId": "srv-flex",
+      "previewGradient": "from-amber-600 to-red-700",
+      "description": "Festive red & gold celebratory design template with Tamil & English greeting fonts.",
+      "tags": [
+        "Festival",
+        "Grand Opening",
+        "Shop Launch",
+        "Traditional"
+      ],
+      "standardDimensions": "10x4 ft",
+      "isPopular": true
+    },
+    {
+      "id": "dsg-b2",
+      "code": "FLEX-SALE-02",
+      "title": "Mega Festive Discount Banner",
+      "category": "banner",
+      "serviceId": "srv-flex",
+      "previewGradient": "from-blue-600 to-indigo-900",
+      "description": "High-visibility retail clearance sale graphic with percentage badge and product slots.",
+      "tags": [
+        "Retail",
+        "Offers",
+        "Discount",
+        "Commercial"
+      ],
+      "standardDimensions": "8x3 ft",
+      "isPopular": true
+    },
+    {
+      "id": "dsg-c1",
+      "code": "CARD-CORP-01",
+      "title": "Executive Sapphire Business Card",
+      "category": "cards",
+      "serviceId": "srv-cards",
+      "previewGradient": "from-slate-800 to-slate-950",
+      "description": "Refined deep navy card with clean geometric division, QR code slot, and gold foil accents.",
+      "tags": [
+        "Corporate",
+        "Minimalist",
+        "Executive",
+        "Tech"
+      ],
+      "standardDimensions": "3.5x2 inches",
+      "isPopular": true
+    },
+    {
+      "id": "dsg-c2",
+      "code": "CARD-MED-02",
+      "title": "Medical & Dental Clinic Card",
+      "category": "cards",
+      "serviceId": "srv-cards",
+      "previewGradient": "from-teal-600 to-emerald-800",
+      "description": "Clean medical blue/green layout with appointment reminder slots on the reverse side.",
+      "tags": [
+        "Doctor",
+        "Clinic",
+        "Healthcare",
+        "Double Sided"
+      ],
+      "standardDimensions": "3.5x2 inches"
+    },
+    {
+      "id": "dsg-v1",
+      "code": "VINYL-BOARD-01",
+      "title": "Storefront Sunboard Promo Panel",
+      "category": "vinyl",
+      "serviceId": "srv-vinyl",
+      "previewGradient": "from-orange-600 to-amber-700",
+      "description": "Crisp menu or product price listing mounted on 3mm white rigid sunboard.",
+      "tags": [
+        "Restaurant",
+        "Price List",
+        "Menu",
+        "Sunboard"
+      ],
+      "standardDimensions": "4x3 ft"
+    },
+    {
+      "id": "dsg-s1",
+      "code": "STK-PACK-01",
+      "title": "Artisan Food Package Seal",
+      "category": "stickers",
+      "serviceId": "srv-stickers",
+      "previewGradient": "from-emerald-700 to-teal-900",
+      "description": "Circular 2.5-inch tamper-evident jar and pouch label with ingredients box.",
+      "tags": [
+        "Packaging",
+        "Sweets",
+        "Bakery",
+        "Organic"
+      ],
+      "standardDimensions": "2.5x2.5 inch Circle",
+      "isPopular": true
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-1794248230093",
+      "name": "gfgfngfn",
+      "phone": "9786867787",
+      "totalOrders": 1,
+      "totalSpent": 8900,
+      "outstandingBalance": 0,
+      "createdAt": "2026-11-09T18:17:10.093Z"
+    },
+    {
+      "id": "cust-1",
+      "name": "K. Senthil Nathan",
+      "phone": "9840112233",
+      "email": "senthil@murugansweets.com",
+      "companyName": "Murugan Sweet Stall & Bakery",
+      "address": "14, Market Road, Madhavaram, Chennai - 60",
+      "totalOrders": 14,
+      "totalSpent": 42500,
+      "outstandingBalance": 0,
+      "createdAt": "2026-01-12T10:00:00Z"
+    },
+    {
+      "id": "cust-2",
+      "name": "Kavitha Sundar",
+      "phone": "9840998877",
+      "email": "kavitha@kavithasilks.in",
+      "companyName": "Kavitha Silks & Sarees",
+      "address": "88, High Road, Madhavaram Milk Colony, Chennai",
+      "totalOrders": 8,
+      "totalSpent": 28900,
+      "outstandingBalance": 1200,
+      "createdAt": "2026-03-04T11:30:00Z"
+    },
+    {
+      "id": "cust-3",
+      "name": "Sister Mary Teresa",
+      "phone": "9444123890",
+      "email": "office@annaischool.org",
+      "companyName": "Annai Matriculation Hr. Sec. School",
+      "address": "Church Road, Madhavaram, Chennai - 60",
+      "totalOrders": 21,
+      "totalSpent": 86400,
+      "outstandingBalance": 3500,
+      "createdAt": "2025-11-20T09:15:00Z"
+    },
+    {
+      "id": "cust-4",
+      "name": "Dr. R. Vigneshwaran",
+      "phone": "9789045612",
+      "email": "drvignesh@chennaidental.in",
+      "companyName": "Vignesh Multi-Specialty Dental Clinic",
+      "address": "Near Retteri Junction, 200 Feet Road, Chennai",
+      "totalOrders": 5,
+      "totalSpent": 16800,
+      "outstandingBalance": 0,
+      "createdAt": "2026-05-18T14:20:00Z"
+    },
+    {
+      "id": "cust-5",
+      "name": "Walk-in Cash Customer",
+      "phone": "9884000000",
+      "companyName": "Retail Walk-in",
+      "totalOrders": 32,
+      "totalSpent": 18450,
+      "outstandingBalance": 0,
+      "createdAt": "2026-01-01T08:00:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1794248230093",
+      "orderNumber": "ADP-2026-1045",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-1794248230093",
+      "customerName": "gfgfngfn",
+      "customerPhone": "9786867787",
+      "serviceId": "srv-cards",
+      "serviceName": "Premium Visiting Cards",
+      "specs": {
+        "width": 3.5,
+        "height": 25,
+        "unit": "in",
+        "quantity": 100,
+        "material": "350gsm Art Card",
+        "finish": "Matte Thermal Lamination",
+        "customerNotes": "gnh",
+        "artworkSupplied": false
+      },
+      "pricing": {
+        "unitRate": 89,
+        "subtotal": 8900,
+        "finishingCharges": 0,
+        "discountAmount": 0,
+        "taxAmount": 0,
+        "totalAmount": 8900,
+        "advancePaid": 8900,
+        "balanceDue": 0
+      },
+      "assignedSectorId": "sec-3",
+      "assignedSectorName": "Sector 3 — Digital Production Press & Signage",
+      "assignmentReason": "Dedicated Capability: Sector 3 — Digital Production Press & Signage is the sole sector configured for Premium Visiting Cards",
+      "isOverride": false,
+      "status": "Confirmed",
+      "paymentStatus": "Paid",
+      "priority": "NORMAL",
+      "createdAt": "2026-11-09T18:17:10.093Z",
+      "dueDate": "2026-11-10T18:17:10.093Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar"
+    },
+    {
+      "id": "ord-1041",
+      "orderNumber": "ADP-2026-1041",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-1",
+      "customerName": "K. Senthil Nathan",
+      "customerPhone": "9840112233",
+      "companyName": "Murugan Sweet Stall & Bakery",
+      "serviceId": "srv-flex",
+      "serviceName": "Star Flex Banner Printing",
+      "designId": "dsg-b1",
+      "designCode": "FLEX-GRAND-01",
+      "specs": {
+        "width": 10,
+        "height": 4,
+        "unit": "ft",
+        "quantity": 2,
+        "material": "Star Flex 340gsm Heavy",
+        "finish": "Heat Welded Border + Metal Eyelets",
+        "customerNotes": "Deliver before 5 PM today for festival arch erection.",
+        "artworkSupplied": false
+      },
+      "pricing": {
+        "unitRate": 18,
+        "calculatedArea": 80,
+        "subtotal": 1440,
+        "finishingCharges": 100,
+        "discountAmount": 40,
+        "taxAmount": 0,
+        "totalAmount": 1500,
+        "advancePaid": 1000,
+        "balanceDue": 500
+      },
+      "assignedSectorId": "sec-1",
+      "assignedSectorName": "Sector 1 — Solvent & Heavy Format",
+      "assignmentReason": "Auto-assigned: Sector 1 has lowest active job queue (1 pending)",
+      "isOverride": false,
+      "status": "In Production",
+      "paymentStatus": "Partial",
+      "priority": "HIGH",
+      "createdAt": "2026-10-20T09:15:00Z",
+      "dueDate": "2026-10-20T17:00:00Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar"
+    },
+    {
+      "id": "ord-1042",
+      "orderNumber": "ADP-2026-1042",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-4",
+      "customerName": "Dr. R. Vigneshwaran",
+      "customerPhone": "9789045612",
+      "companyName": "Vignesh Multi-Specialty Dental Clinic",
+      "serviceId": "srv-cards",
+      "serviceName": "Premium Visiting Cards",
+      "designId": "dsg-c2",
+      "designCode": "CARD-MED-02",
+      "specs": {
+        "width": 3.5,
+        "height": 2,
+        "unit": "in",
+        "quantity": 1000,
+        "material": "350gsm Art Card",
+        "finish": "Matte Thermal Lamination",
+        "customerNotes": "Ensure Dr. reg number MDS-18492 is printed clearly.",
+        "artworkSupplied": true
+      },
+      "pricing": {
+        "unitRate": 0.45,
+        "subtotal": 450,
+        "finishingCharges": 150,
+        "discountAmount": 0,
+        "taxAmount": 0,
+        "totalAmount": 600,
+        "advancePaid": 600,
+        "balanceDue": 0
+      },
+      "assignedSectorId": "sec-3",
+      "assignedSectorName": "Sector 3 — Digital Production Press & Signage",
+      "assignmentReason": "Direct capability match: Sector 3 is the dedicated digital press for visiting cards",
+      "isOverride": false,
+      "status": "Ready for Collection",
+      "paymentStatus": "Paid",
+      "priority": "NORMAL",
+      "createdAt": "2026-10-20T08:30:00Z",
+      "dueDate": "2026-10-20T14:00:00Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar"
+    },
+    {
+      "id": "ord-1043",
+      "orderNumber": "ADP-2026-1043",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-2",
+      "customerName": "Kavitha Sundar",
+      "customerPhone": "9840998877",
+      "companyName": "Kavitha Silks & Sarees",
+      "serviceId": "srv-stickers",
+      "serviceName": "Custom Die-Cut Waterproof Stickers",
+      "designId": "dsg-s1",
+      "designCode": "STK-PACK-01",
+      "specs": {
+        "width": 2.5,
+        "height": 2.5,
+        "unit": "in",
+        "quantity": 500,
+        "material": "Glossy White Vinyl",
+        "finish": "Contour Cut (Custom Shape)",
+        "customerNotes": "Diwali saree box logo packaging sticker.",
+        "artworkSupplied": true
+      },
+      "pricing": {
+        "unitRate": 3.5,
+        "subtotal": 1750,
+        "finishingCharges": 100,
+        "discountAmount": 50,
+        "taxAmount": 0,
+        "totalAmount": 1800,
+        "advancePaid": 1000,
+        "balanceDue": 800
+      },
+      "assignedSectorId": "sec-2",
+      "assignedSectorName": "Sector 2 — Eco-Solvent & Precision Vinyl",
+      "assignmentReason": "Auto-assigned: Sector 2 selected for high precision contour cutting",
+      "isOverride": false,
+      "status": "Quality Check",
+      "paymentStatus": "Partial",
+      "priority": "NORMAL",
+      "createdAt": "2026-10-19T16:40:00Z",
+      "dueDate": "2026-10-20T16:00:00Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar"
+    },
+    {
+      "id": "ord-1040",
+      "orderNumber": "ADP-2026-1040",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-3",
+      "customerName": "Sister Mary Teresa",
+      "customerPhone": "9444123890",
+      "companyName": "Annai Matriculation Hr. Sec. School",
+      "serviceId": "srv-acrylic",
+      "serviceName": "3D Acrylic LED Glow Signboard",
+      "specs": {
+        "width": 8,
+        "height": 3,
+        "unit": "ft",
+        "quantity": 1,
+        "material": "3mm Cast Acrylic Sheet",
+        "finish": "Frontlit Channel Letters",
+        "customerNotes": "School entrance reception board. White & Blue glow LED.",
+        "artworkSupplied": true
+      },
+      "pricing": {
+        "unitRate": 175,
+        "calculatedArea": 24,
+        "subtotal": 4200,
+        "finishingCharges": 350,
+        "discountAmount": 150,
+        "taxAmount": 0,
+        "totalAmount": 4400,
+        "advancePaid": 3000,
+        "balanceDue": 1400
+      },
+      "assignedSectorId": "sec-3",
+      "assignedSectorName": "Sector 3 — Digital Production Press & Signage",
+      "assignmentReason": "Direct capability match: Sector 3 houses CO2 Laser cutter and LED assembly bench",
+      "isOverride": false,
+      "status": "In Production",
+      "paymentStatus": "Partial",
+      "priority": "HIGH",
+      "createdAt": "2026-10-19T11:20:00Z",
+      "dueDate": "2026-10-21T18:00:00Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "txn-1794248361667",
+      "direction": "OUT",
+      "amount": 100,
+      "paymentMethod": "UPI",
+      "category": "PETTY_CASH",
+      "sectorId": "sec-1",
+      "sectorName": "Sector 1 — Solvent & Heavy Format",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "gfbgf",
+      "timestamp": "2026-11-09T18:19:21.667Z"
+    },
+    {
+      "id": "txn-1794248230093",
+      "orderId": "ord-1794248230093",
+      "orderNumber": "ADP-2026-1045",
+      "direction": "IN",
+      "amount": 8900,
+      "paymentMethod": "CASH",
+      "category": "ORDER_FULL",
+      "sectorId": "sec-3",
+      "sectorName": "Sector 3 — Digital Production Press & Signage",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "Advance for Premium Visiting Cards (ADP-2026-1045)",
+      "timestamp": "2026-11-09T18:17:10.093Z"
+    },
+    {
+      "id": "txn-101",
+      "orderId": "ord-1041",
+      "orderNumber": "ADP-2026-1041",
+      "direction": "IN",
+      "amount": 1000,
+      "paymentMethod": "CASH",
+      "category": "ORDER_ADVANCE",
+      "sectorId": "sec-1",
+      "sectorName": "Sector 1 — Solvent",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "Advance paid in cash for Star Flex order",
+      "timestamp": "2026-10-20T09:15:00Z"
+    },
+    {
+      "id": "txn-102",
+      "orderId": "ord-1042",
+      "orderNumber": "ADP-2026-1042",
+      "direction": "IN",
+      "amount": 600,
+      "paymentMethod": "UPI",
+      "category": "ORDER_FULL",
+      "sectorId": "sec-3",
+      "sectorName": "Sector 3 — Digital Press",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "externalRef": "UPI/629381048291",
+      "notes": "GPay received from Dr. Vigneshwaran for 1000 visiting cards",
+      "timestamp": "2026-10-20T08:30:00Z"
+    },
+    {
+      "id": "txn-103",
+      "orderId": "ord-1043",
+      "orderNumber": "ADP-2026-1043",
+      "direction": "IN",
+      "amount": 1000,
+      "paymentMethod": "CASH",
+      "category": "ORDER_ADVANCE",
+      "sectorId": "sec-2",
+      "sectorName": "Sector 2 — Eco-Solvent",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "Advance for Kavitha Silks saree packaging stickers",
+      "timestamp": "2026-10-19T16:40:00Z"
+    },
+    {
+      "id": "txn-104",
+      "direction": "OUT",
+      "amount": 350,
+      "paymentMethod": "CASH",
+      "category": "PETTY_CASH",
+      "sectorId": "sec-1",
+      "sectorName": "Shared Shop / Sector 1",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "Morning tea, snacks for shop helpers & courier parcel delivery charges",
+      "timestamp": "2026-10-20T10:00:00Z"
+    },
+    {
+      "id": "txn-105",
+      "direction": "OUT",
+      "amount": 4500,
+      "paymentMethod": "BANK",
+      "category": "MATERIAL_PURCHASE",
+      "sectorId": "sec-1",
+      "sectorName": "Sector 1 — Solvent",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-karthik",
+      "operatorName": "Karthikeyan R.",
+      "externalRef": "NEFT/HDFC91038201",
+      "notes": "Purchase of 2 Star Flex 340gsm 10ft rolls from Sri Balaji Media Suppliers",
+      "timestamp": "2026-10-20T07:45:00Z"
+    }
+  ],
+  "shifts": [
+    {
+      "id": "shift-today",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "openingCash": 3000,
+      "expectedCash": 3650,
+      "status": "OPEN",
+      "notes": "Morning shift started at 08:00 AM. Cash float verified with 6x ₹500 notes.",
+      "openedAt": "2026-10-20T08:00:00Z"
+    },
+    {
+      "id": "shift-prev-01",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-karthik",
+      "operatorName": "Karthikeyan R.",
+      "openingCash": 2500,
+      "expectedCash": 3000,
+      "actualCountedCash": 3000,
+      "discrepancy": 0,
+      "status": "CLOSED",
+      "handoverToOperatorId": "usr-praveen",
+      "handoverToOperatorName": "Praveen Kumar",
+      "notes": "Morning float handed over to Praveen. Verified count: 6x ₹500.",
+      "openedAt": "2026-10-19T08:00:00Z",
+      "closedAt": "2026-10-19T20:00:00Z"
+    }
+  ],
+  "activeShift": {
+    "id": "shift-today",
+    "branchId": "br-madhavaram",
+    "operatorId": "usr-praveen",
+    "operatorName": "Praveen Kumar",
+    "openingCash": 3000,
+    "expectedCash": 12550,
+    "status": "OPEN",
+    "notes": "Morning shift started at 08:00 AM. Cash float verified with 6x ₹500 notes.",
+    "openedAt": "2026-10-20T08:00:00Z"
+  },
+  "auditLogs": [
+    {
+      "id": "aud-1794248361667-428",
+      "entityType": "EXPENSE",
+      "entityId": "txn-1794248361667",
+      "action": "EXPENSE_RECORDED",
+      "performedBy": "Praveen Kumar",
+      "details": "Expense of ₹100 (PETTY_CASH) paid via UPI. gfbgf",
+      "timestamp": "2026-11-09T18:19:21.667Z"
+    },
+    {
+      "id": "aud-1794248230093-628",
+      "entityType": "ORDER",
+      "entityId": "ord-1794248230093",
+      "action": "ORDER_CREATED",
+      "performedBy": "Praveen Kumar",
+      "details": "Order ADP-2026-1045 created for gfgfngfn. Dedicated Capability: Sector 3 — Digital Production Press & Signage is the sole sector configured for Premium Visiting Cards",
+      "timestamp": "2026-11-09T18:17:10.093Z"
+    },
+    {
+      "id": "aud-1794248230093-654",
+      "entityType": "PAYMENT",
+      "entityId": "txn-1794248230093",
+      "action": "ADVANCE_COLLECTED",
+      "performedBy": "Praveen Kumar",
+      "details": "₹8900 via CASH collected for ADP-2026-1045",
+      "timestamp": "2026-11-09T18:17:10.093Z"
+    },
+    {
+      "id": "aud-1",
+      "entityType": "SHIFT",
+      "entityId": "shift-today",
+      "action": "SHIFT_OPENED",
+      "performedBy": "Praveen Kumar (Billing Operator)",
+      "details": "Opened morning shift with ₹3,000 physical cash float in shared drawer (கல்லா)",
+      "timestamp": "2026-10-20T08:00:00Z"
+    },
+    {
+      "id": "aud-2",
+      "entityType": "ORDER",
+      "entityId": "ord-1041",
+      "action": "ORDER_CREATED_AND_ASSIGNED",
+      "performedBy": "Praveen Kumar (Billing Operator)",
+      "details": "Order ADP-2026-1041 created for Murugan Sweet Stall. Auto-assigned to Sector 1.",
+      "timestamp": "2026-10-20T09:15:00Z"
+    },
+    {
+      "id": "aud-3",
+      "entityType": "PAYMENT",
+      "entityId": "txn-101",
+      "action": "CASH_PAYMENT_RECORDED",
+      "performedBy": "Praveen Kumar",
+      "details": "Recorded ₹1,000 cash advance for ADP-2026-1041. Physical drawer expected cash updated.",
+      "timestamp": "2026-10-20T09:16:00Z"
+    },
+    {
+      "id": "aud-4",
+      "entityType": "EXPENSE",
+      "entityId": "txn-104",
+      "action": "PETTY_CASH_DISBURSED",
+      "performedBy": "Praveen Kumar",
+      "details": "₹350 disbursed from physical cash drawer for shop refreshments and courier fee.",
+      "timestamp": "2026-10-20T10:00:00Z"
+    }
+  ]
+}

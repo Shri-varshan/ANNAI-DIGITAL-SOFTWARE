@@ -1,0 +1,1200 @@
+Bro, now we’re going to treat Annai Digital Printing Management System as your first serious, production-oriented software project — not just a billing website, not a basic admin dashboard, and definitely not a generic template.
+
+The design must impress the client during the first 10 seconds, feel premium when they interact with it, and still be fast enough for a printing shop handling a large number of customers every day.
+
+We’ll combine three things:
+
+- Premium UI/UX: cinematic landing screen, polished typography, smooth Framer Motion transitions, subtle 3D effects, interactive charts, and a professional visual identity.
+- Real business functionality: fast billing, automatic sector assignment, design selection, order tracking, income and expenses, cash reconciliation, and shift handover.
+- Production-minded engineering: secure authentication, a real database, permissions, financial audit trails, backups, error handling, and reliable calculations.
+
+I’m interpreting “Nucle and Corner” as the two AI development tools you want to use. The prompt below is written as a master build specification you can paste into your coding tool. If you meant specific tools with different names, the project specification itself will still work.
+
+# Master Prompt — Annai Digital Printing
+
+Copy the complete prompt below into your AI coding tool. It is designed to make the AI build the application in phases while maintaining one consistent architecture, design system, and business workflow.
+
+# MASTER BUILD PROMPT — ANNAI DIGITAL PRINTING
+
+## Premium Printing Business Management, POS, Production & Financial Control Platform
+
+Act as a senior product designer, UI/UX architect, full-stack engineer, database architect, financial-systems engineer, security engineer, and QA engineer.
+
+Your task is to design and build a premium, production-oriented business management platform for **Annai Digital Printing**, a real printing business in Chennai, Tamil Nadu, India.
+
+This is my first major real-world software project. Do not build a basic student project, static dashboard, or superficial UI prototype. Build a polished, maintainable, secure, functional application that can be demonstrated to the business owner and progressively deployed in the real shop.
+
+The finished application must combine the visual quality of a premium SaaS product, the speed of a point-of-sale system, the operational capabilities of printing-management software, and strong financial accountability.
+
+**Primary priorities, in order:**
+
+1. Correct business logic and financial accuracy.
+2. Fast order entry for high-volume walk-in customers.
+3. Premium, memorable UI/UX that attracts the client.
+4. Reliable production workflow and automatic sector assignment.
+5. Security, accountability, auditability, and maintainability.
+6. A complete testing and deployment process.
+
+Do not sacrifice correctness for animation or visual effects.
+
+---
+
+# 1. BUSINESS CONTEXT
+
+Annai Digital Printing has three operating sectors at its Madhavaram branch:
+
+- Sector 1
+- Sector 2
+- Sector 3
+
+These labels are initial placeholders. Make sector names, service mappings, and operating rules configurable by an authorized administrator.
+
+The Madhavaram shop currently has one common billing computer and an operator who works in shifts. Different employees may operate the computer at different times.
+
+The shop serves many customers daily. Customers visit the shop, select a design or explain their printing requirement, and place orders.
+
+The application must provide **one unified dashboard and one shared billing workflow for all three sectors**. Do not create three disconnected dashboards or require customers to choose a sector.
+
+The system must automatically determine which sector should handle an order using the following logic:
+
+1. Identify the requested service.
+2. Find the sectors configured and eligible to perform that service.
+3. If only one sector is eligible, assign the order there.
+4. If multiple sectors are eligible, choose according to configurable workload rules, such as pending jobs, capacity, or estimated workload.
+5. Display the assignment to the operator.
+6. Allow an authorized user to override the assignment with a recorded reason.
+7. Record the assignment history.
+
+Never randomly assign orders or hardcode assumptions about which sector performs which service.
+
+The first deployment target is Madhavaram. The application must support adding Sharma Nagar and Broadway as future branches without requiring a complete rewrite.
+
+---
+
+# 2. PRODUCT VISION
+
+Build an integrated platform containing:
+
+- Premium business dashboard
+- Fast point-of-sale billing
+- Customer management
+- Printing-service and design catalogue
+- Order creation and automatic sector assignment
+- Production queue and job tracking
+- Incoming payments
+- Outgoing expenses and payments
+- Cash, UPI, and bank transaction tracking
+- Physical cash drawer / கல்லா reconciliation
+- Employee accounts and role-based access
+- Shift opening, closing, and handover
+- Invoices and receipts
+- Reports and financial analytics
+- Audit logs and exception alerts
+- Multi-branch administration
+- Settings and business configuration
+
+The product should feel like a premium commercial application, not an ordinary CRUD dashboard.
+
+Use **Annai Digital Printing** as the brand identity. Create an elegant, professional visual system suitable for a real printing company.
+
+Do not invent real business financial data, real customer records, employee identities, tax registrations, or actual branch contact details. Use clearly identified sample data only in demo mode.
+
+---
+
+# 3. ADVANCED UI/UX DIRECTION
+
+## Design concept: Premium Creative Studio meets Financial Command Center
+
+The application should visually communicate creativity, reliability, speed, and financial control.
+
+Do not use a generic admin template with a white background, ordinary sidebar, and four unstyled statistic cards.
+
+Create a distinctive visual identity with a deliberate visual hierarchy.
+
+### Visual language
+
+Use a premium light interface as the primary workspace:
+
+- Warm off-white or subtle ivory backgrounds.
+- Deep ink/navy typography.
+- A vivid electric blue or refined cobalt as the main action color.
+- Restrained violet or cyan accents for creative features.
+- Green for verified receipts and successful transactions.
+- Amber for pending orders and attention-required states.
+- Red for genuine errors, overdue balances, and discrepancies.
+- Soft borders, carefully layered surfaces, elegant shadows, and generous spacing.
+- Large financial figures with excellent readability.
+- Crisp icons and consistent spacing.
+- Professional typography with a distinctive heading font and a highly readable interface font.
+
+Suggested typography: Geist, Inter, or another suitable modern sans-serif. Use a display font sparingly for hero sections and important headings.
+
+Avoid excessive gradients, glowing elements, glassmorphism everywhere, random colors, giant empty spaces, and excessive rounded cards.
+
+Use visual effects selectively so that the application remains professional and usable during a busy workday.
+
+### Premium first impression
+
+Create an impressive initial experience with:
+
+- An animated Annai Digital Printing brand mark or refined wordmark.
+- A polished welcome or login experience.
+- A distinctive dashboard header.
+- Subtle animated background details where appropriate.
+- Smooth navigation and route transitions.
+- Interactive data visualizations.
+- Beautiful empty states.
+- Refined loading skeletons.
+- Thoughtful success, warning, and error feedback.
+- Responsive layouts for desktop, laptop, tablet, and supported mobile screens.
+
+The billing workspace must prioritize speed over decoration. Avoid animations that delay customer checkout or make the operator wait.
+
+---
+
+# 4. FRAMER MOTION AND INTERACTION DESIGN
+
+Use React and Framer Motion (Motion for React) for purposeful animations.
+
+Implement:
+
+- Smooth page transitions.
+- Staggered dashboard-card entrances.
+- Animated count-ups for dashboard metrics.
+- Subtle hover and press feedback on buttons.
+- Shared-layout transitions where useful.
+- Animated tab changes.
+- Smooth expandable panels.
+- Dialog and drawer transitions.
+- Polished dropdown menus.
+- Order-status transitions.
+- Animated chart reveals.
+- A restrained animated hero section.
+- Small visual confirmations after successful actions.
+- Reduced-motion support through `prefers-reduced-motion`.
+
+Use spring animations for suitable interactions and short transitions for frequent business actions.
+
+Prefer transform and opacity animations for performance.
+
+Avoid continuous animations that distract employees, animated financial numbers that appear to change without context, unnecessary 3D scenes, or effects that interfere with accessibility.
+
+Use CSS perspective, subtle tilt, and restrained 3D-style visuals where they genuinely improve the experience. Do not add a heavy 3D library unless the benefit justifies its performance and maintenance cost.
+
+All interactive elements must remain usable by keyboard and touch.
+
+---
+
+# 5. APPLICATION STRUCTURE
+
+Create one cohesive application with the following navigation:
+
+1. Overview
+2. New Order
+3. Orders
+4. Design Catalogue
+5. Production
+6. Customers
+7. Transactions
+8. Expenses
+9. Cash & Shifts
+10. Reports
+11. Audit Log
+12. Settings
+
+Display only the navigation items permitted for the authenticated user's role.
+
+Use a responsive sidebar that can collapse, a compact top bar, a contextual page title, branch selection where authorized, and an operator profile menu.
+
+Add global search for orders, customers, receipts, and transaction references.
+
+Provide useful breadcrumbs, keyboard shortcuts where appropriate, clear loading states, and actionable empty states.
+
+Do not create multiple disconnected versions of the same feature.
+
+---
+
+# 6. OVERVIEW DASHBOARD
+
+The main dashboard must show incoming and outgoing money together, as requested by the business owner.
+
+### Financial overview
+
+Display:
+
+- Today's total payments received.
+- Today's total payments made.
+- Cash received.
+- Cash paid out.
+- UPI received and paid.
+- Bank receipts and payments.
+- Current expected physical cash balance.
+- Actual counted cash when a reconciliation has been completed.
+- Cash discrepancy, if any.
+- Total outstanding customer balances.
+- Refunds and reversed transactions.
+- Orders created today.
+- Orders currently in production.
+- Orders ready for collection.
+- Overdue or delayed orders.
+
+Clearly distinguish payment totals from order sales totals. Do not treat the total value of an order as money already received.
+
+Allow authorized users to switch between today, yesterday, week, month, and a custom date range.
+
+### Dashboard visualizations
+
+Include useful charts, such as:
+
+- Money received versus money spent.
+- Cash versus UPI versus bank.
+- Order volume by service.
+- Order volume by sector.
+- Order-status distribution.
+- Revenue trends over time.
+- Outstanding balances.
+- Expense categories.
+
+Every chart must use real database data in production mode. Label demo data clearly. Provide meaningful tooltips, sensible empty states, date-range filtering, and accessible alternatives to chart-only information.
+
+### Activity feed
+
+Display recent events:
+
+- New order created.
+- Payment recorded.
+- Expense submitted.
+- Order assigned or reassigned.
+- Refund requested or approved.
+- Shift opened or closed.
+- Cash discrepancy identified.
+- Order marked ready or collected.
+
+Show the responsible user, timestamp, and relevant reference.
+
+---
+
+# 7. FAST BILLING AND NEW ORDER CREATION
+
+This is one of the most important screens.
+
+The operator must be able to create routine orders quickly without navigating multiple pages.
+
+Design a keyboard-friendly, minimal-click workflow that aims for approximately 15–30 seconds for a routine order when the required information is available. This is a usability target to validate, not a guaranteed completion time.
+
+### Step 1: Customer
+
+Allow:
+
+- Returning customer lookup by phone number.
+- Customer selection from search results.
+- Optional customer name.
+- Optional phone number for walk-in customers.
+- Optional email and business name.
+- Guest or walk-in customer mode.
+
+Do not require unnecessary information for a simple walk-in sale.
+
+Do not create duplicate customers automatically when a matching record already exists. Let authorized staff merge duplicates through a controlled workflow.
+
+### Step 2: Select service
+
+Provide a searchable service catalogue with attractive visual tiles and suitable icons or thumbnails.
+
+Initial example services:
+
+- Flex banner printing.
+- Visiting cards.
+- Sticker printing.
+- Brochures and flyers.
+- Signboards.
+- Poster printing.
+- Vinyl printing.
+- Other configurable printing services.
+
+These are starter examples, not fixed assumptions about the shop's exact capabilities.
+
+Allow administrators to configure service names, dimensions, material types, units, price presets, production instructions, eligible sectors, and whether a service requires artwork approval.
+
+### Step 3: Select design
+
+Create a visual design gallery with:
+
+- Search.
+- Categories.
+- Filters.
+- Thumbnail previews.
+- Full-size preview.
+- Favorite or frequently used designs.
+- Recently used designs.
+- Design code.
+- Version information where needed.
+- Custom design / customer-supplied artwork option.
+
+Support a quick selection workflow for frequently used designs.
+
+Where the actual design assets are not available, use clearly labeled placeholders and provide an admin upload facility. Do not falsely present sample designs as the business's real catalogue.
+
+Do not expose private customer artwork publicly.
+
+### Step 4: Order specifications
+
+Capture only the fields relevant to the chosen service:
+
+- Width and height.
+- Measurement unit.
+- Quantity.
+- Material or finish.
+- Printing type.
+- Lamination or finishing.
+- Customer instructions.
+- Required completion date.
+- Artwork file or design reference where applicable.
+
+Use conditional fields. For example, a visiting-card order should not display irrelevant banner dimensions.
+
+### Step 5: Pricing
+
+Automatically calculate:
+
+- Unit price.
+- Quantity.
+- Optional setup or finishing charges.
+- Discounts.
+- Tax, when applicable and correctly configured.
+- Total amount.
+- Advance paid.
+- Balance due.
+
+Use exact money handling on the backend. Store money as integer paise or a correctly constrained decimal representation. Never use imprecise floating-point arithmetic as the authoritative financial calculation.
+
+All totals must be validated server-side.
+
+Discounts must follow configured permissions and approval rules. Do not invent tax rates or assume a tax registration exists.
+
+### Step 6: Automatic sector assignment
+
+Show:
+
+- Suggested sector.
+- Reason for assignment.
+- Relevant service capability.
+- Workload or capacity information.
+- Any applicable completion estimate.
+
+The backend must determine the assignment using current eligibility and workload data. Do not trust a client-side assignment as authoritative.
+
+Allow authorized overrides with a recorded reason.
+
+### Step 7: Payment and receipt
+
+Allow payment methods:
+
+- Cash.
+- UPI.
+- Bank transfer.
+- Other explicitly configured methods.
+
+Support full payment, partial payment, advance payment, and later balance payments.
+
+A single order may have multiple payments, including payments using different methods.
+
+Create the order and payment records reliably. Prevent duplicate submissions and duplicate payment recording using idempotency controls and database constraints.
+
+Only show a payment as confirmed when the system has adequate confirmation. Do not claim an online payment is verified merely because an operator entered a reference number.
+
+After a successful order creation:
+
+- Generate a unique order number.
+- Display the assigned sector.
+- Display the amount received and balance due.
+- Offer a print-ready receipt.
+- Offer a copyable order reference.
+- Return immediately to the next-order workflow.
+- Preserve the previous order's data in its permanent record.
+
+Receipt printing should work with standard browsers and common receipt printers, with an optional A4 invoice layout.
+
+Do not block the billing flow with unnecessary animations.
+
+---
+
+# 8. ORDER MANAGEMENT
+
+Build a complete order list with:
+
+- Search by order number, customer, or phone.
+- Date filters.
+- Service filters.
+- Sector filters.
+- Status filters.
+- Payment-status filters.
+- Due-date filters.
+- Sorting and pagination.
+- Export permissions.
+
+Suggested order statuses:
+
+- Draft.
+- Confirmed.
+- Artwork Pending.
+- Artwork Approved.
+- In Production.
+- Quality Check.
+- Ready for Collection.
+- Completed / Collected.
+- Cancelled.
+
+Configure which statuses apply to each service.
+
+Every status change must record the responsible user and timestamp. Restrict invalid transitions.
+
+Provide an order-detail page containing:
+
+- Order summary.
+- Customer information.
+- Selected design and specifications.
+- Pricing breakdown.
+- Payments and balance.
+- Sector assignment history.
+- Production history.
+- Attachments.
+- Internal notes.
+- Receipt and invoice actions.
+- Audit timeline.
+
+Cancellation, refunds, and financial corrections must use explicit controlled workflows.
+
+Never silently delete a financially relevant order.
+
+---
+
+# 9. PRODUCTION MANAGEMENT
+
+Create a professional production board for authorized staff.
+
+Use a table, kanban board, or hybrid view that remains easy to scan.
+
+Display:
+
+- Order number.
+- Service.
+- Customer or masked customer reference where appropriate.
+- Quantity and specifications.
+- Assigned sector.
+- Due date.
+- Priority.
+- Production status.
+- Delay indicator.
+
+Provide filters for sector, service, due date, and status.
+
+Allow permitted production users to update status, add internal notes, and flag missing artwork or materials.
+
+Track assignment changes and completion times.
+
+Support an optional capacity model so automatic assignment can consider more than the raw number of pending jobs.
+
+Do not promise delivery times unless the business has configured and validated an appropriate estimate.
+
+---
+
+# 10. INCOME, EXPENSES, AND FINANCIAL TRANSACTIONS
+
+Every rupee received or spent must have a traceable financial record.
+
+Build a dedicated transaction ledger containing:
+
+- Unique transaction ID.
+- Date and time.
+- Direction: incoming or outgoing.
+- Amount.
+- Payment method.
+- Linked order where applicable.
+- Sector attribution.
+- Branch.
+- Operator.
+- Transaction category.
+- Counterparty or supplier where applicable.
+- External reference.
+- Notes.
+- Approval status where relevant.
+- Reversal or correction links.
+
+### Incoming transactions
+
+Include customer advances, final payments, balance payments, and other legitimate incoming receipts.
+
+### Outgoing transactions
+
+Include:
+
+- Material purchases.
+- Supplier payments.
+- Petty cash.
+- Shop expenses.
+- Refunds.
+- Other configurable expense categories.
+
+Avoid counting the same economic event twice. A supplier expense and the payment settling that expense must be represented using a consistent accounting model.
+
+A transfer between cash, UPI, and bank accounts must be recorded as a transfer, not incorrectly classified as business income or an operating expense.
+
+### Expense form
+
+Keep expense entry quick but auditable.
+
+Fields:
+
+- Category.
+- Amount.
+- Payment method or source account.
+- Sector or shared-shop attribution.
+- Supplier or payee when applicable.
+- Reference number or attachment where appropriate.
+- Notes.
+- Recorded-by user.
+
+Require additional authorization for configured high-value expenses and other sensitive transactions.
+
+### Transaction history
+
+Provide search, date filters, payment-method filters, categories, sector attribution, exports, and links to the original order or expense.
+
+Use server-side pagination for large datasets.
+
+No ordinary user should be able to permanently erase a posted financial event.
+
+Corrections must create linked reversal and replacement events, preserving the original history and the reason for correction.
+
+---
+
+# 11. PHYSICAL CASH DRAWER — கல்லா RECONCILIATION
+
+This is a critical business requirement.
+
+The application must calculate expected physical cash correctly.
+
+**Expected closing cash = opening physical cash + cash received − cash paid out.**
+
+**Cash difference = actual counted cash − expected closing cash.**
+
+Only transactions that actually affect physical cash should affect this balance.
+
+Examples:
+
+- Cash received from a customer increases expected physical cash.
+- A cash-paid supplier expense decreases expected physical cash.
+- A UPI customer payment does not increase physical cash.
+- A bank payment to a supplier does not decrease physical cash.
+- An internal transfer of responsibility between operators does not create income or expense.
+
+### Shared cash drawer
+
+The current arrangement uses one common billing computer. Whether the business uses one physical cash drawer for all sectors or separate physical cash boxes must be confirmed during setup.
+
+Make the application configurable for:
+
+- One shared drawer for all sectors.
+- Separate drawers, if the owner confirms that they exist.
+
+If there is one shared drawer, calculate and reconcile one physical cash balance while retaining sector-level attribution for transactions.
+
+Never invent separate physical cash balances when the money is held in one shared drawer.
+
+### Opening and closing workflow
+
+At shift opening:
+
+- Record opening physical cash.
+- Identify the responsible operator.
+- Record date and time.
+- Require acknowledgment.
+
+During the shift:
+
+- Update expected cash from posted cash transactions.
+- Show transaction references and totals.
+
+At shift close:
+
+- Calculate expected cash.
+- Ask the operator to count actual cash.
+- Calculate the difference.
+- Request an explanation if a discrepancy exists.
+- Require authorized review when configured thresholds are exceeded.
+- Record the closing operator and time.
+- Prevent unauthorized changes to a closed shift.
+
+At handover:
+
+- Show outgoing operator, incoming operator, expected cash, counted cash, and any discrepancy.
+- Require both operators to acknowledge the handover.
+- Preserve the custody-transfer record.
+
+The handover itself must not be counted as new income or expense.
+
+Never silently adjust expected cash to match the physical count.
+
+The software cannot independently know how much cash physically exists. It must clearly distinguish calculated cash from staff-counted cash.
+
+---
+
+# 12. USER ACCOUNTS AND ACCESS CONTROL
+
+Implement secure authentication and role-based access control.
+
+Suggested roles:
+
+### Owner / Super Admin
+
+- All authorized branches.
+- Financial overview.
+- User and role management.
+- Service and sector configuration.
+- Approval workflows.
+- Reports and audit logs.
+- Business-wide settings.
+
+### Branch Manager
+
+- Assigned branch operations.
+- Orders and production.
+- Financial monitoring.
+- Authorized approvals and shift review.
+
+### Billing Operator
+
+- Fast order creation.
+- Customer lookup.
+- Payment recording.
+- Receipt printing.
+- Permitted expense entry.
+- Shift opening and closing.
+
+### Production Staff
+
+- Assigned production queue.
+- Relevant order details.
+- Status updates.
+- Internal notes.
+
+### Accountant / Finance
+
+- Financial transactions.
+- Reconciliation.
+- Reports.
+- Authorized corrections and review.
+
+These are suggested roles. Configure granular permissions rather than relying on role labels alone.
+
+Enforce authorization on the server and database. Hiding buttons in the frontend is not sufficient security.
+
+Record user identity for financial actions. Never use a shared generic operator account for production use.
+
+Support secure logout, session management, and appropriate password-reset flows.
+
+---
+
+# 13. DATABASE AND BACKEND ARCHITECTURE
+
+Use a maintainable, typed architecture.
+
+### Recommended stack
+
+Frontend:
+
+- React.
+- TypeScript.
+- Vite or an equally suitable supported framework.
+- Tailwind CSS.
+- Framer Motion / Motion for React.
+- A consistent component library, such as shadcn/ui, where appropriate.
+- Lucide icons.
+- A suitable accessible charting library.
+- React Hook Form and Zod, or equivalent tools, for forms and validation.
+
+Backend:
+
+- Supabase.
+- PostgreSQL.
+- Supabase Auth.
+- Row Level Security.
+- Server-side database functions and/or Edge Functions for sensitive workflows.
+
+A dedicated Node.js API is also acceptable if the project benefits from centralized server-side business logic. Do not introduce unnecessary infrastructure merely to make the stack appear advanced.
+
+### Core data entities
+
+Design a normalized database that includes appropriate versions of:
+
+- branches
+- sectors
+- sector service capabilities
+- users and profiles
+- roles and permissions
+- customers
+- services
+- designs and design versions
+- orders
+- order items
+- order specifications
+- order assignment history
+- order status history
+- payment records
+- expenses
+- financial accounts
+- account transfers
+- cash drawers
+- shifts
+- cash counts and reconciliations
+- shift handovers
+- refunds
+- financial reversals and adjustments
+- suppliers
+- receipts and invoices
+- attachments
+- audit events
+- approval requests
+- application settings
+
+Add appropriate primary keys, foreign keys, indexes, uniqueness constraints, timestamps, and validation constraints.
+
+Use database transactions for operations that must succeed or fail together.
+
+Sensitive business operations must be enforced by trusted backend logic.
+
+### Essential reliability requirements
+
+- Validate all monetary values server-side.
+- Use idempotency for payment and order submissions.
+- Prevent duplicate order or payment creation.
+- Use database transactions for coupled financial operations.
+- Avoid race conditions in order assignment and shift closing.
+- Keep audit events immutable to ordinary users.
+- Apply branch and role restrictions at the database/API level.
+- Use secure file storage and access controls.
+- Never expose privileged service-role credentials in browser code.
+- Store secrets in appropriate environment variables.
+- Provide database migrations and seed scripts.
+- Include a documented backup and restore process.
+
+If an external payment provider is not integrated, label the feature as manually recorded rather than pretending automatic payment verification exists.
+
+---
+
+# 14. REPORTS AND ANALYTICS
+
+Create useful reports for the owner.
+
+Include:
+
+- Daily collection report.
+- Daily outgoing-payment report.
+- Cash reconciliation report.
+- Shift handover report.
+- Outstanding customer balances.
+- Order sales versus payments received.
+- Payments by method.
+- Expenses by category.
+- Order volume by service.
+- Sector workload and turnaround.
+- Refunds and corrections.
+- Operator activity.
+- Branch comparison when multiple branches are enabled.
+
+Allow date-range filtering and suitable exports.
+
+Support CSV and print-ready PDF reports. Generate PDFs using reliable server-side or well-tested document-generation functionality.
+
+Make all report totals consistent with the underlying transaction ledger. Clearly define each metric and date basis.
+
+Do not expose customer data to unauthorized roles.
+
+---
+
+# 15. SECURITY AND ANTI-FRAUD CONTROLS
+
+The software must improve accountability without pretending it can eliminate all fraud.
+
+Implement:
+
+- Individual user accounts.
+- Least-privilege permissions.
+- Strong server-side validation.
+- Database-level access restrictions.
+- Immutable financial history for ordinary users.
+- Reasoned reversals rather than silent deletion.
+- Approval rules for refunds, high-value expenses, discounts, and cash adjustments.
+- Duplicate-payment prevention.
+- Shift reconciliation alerts.
+- Unclosed-shift alerts.
+- Audit trails for sensitive changes.
+- Secure file uploads.
+- Rate limiting and appropriate abuse protections.
+- Error logging without exposing sensitive information.
+- Tested backups and restore procedures.
+
+Where practical, provide reconciliation support against uploaded or imported bank/UPI statements. Do not claim a payment has been verified against a provider unless the corresponding integration or reconciliation actually occurred.
+
+Record the difference between:
+
+- Entered by the operator.
+- Confirmed by the application.
+- Verified against an external financial source.
+
+These are different levels of evidence.
+
+---
+
+# 16. CUSTOMER EXPERIENCE AND PRINTING DESIGN CATALOGUE
+
+Create a visually engaging catalogue that makes design selection quick.
+
+Use:
+
+- Image-first service cards.
+- Clear category filters.
+- Search by design code.
+- Recent and popular designs.
+- Preview overlays.
+- Size and material options.
+- Favorites.
+- Artwork status.
+- Custom artwork upload.
+
+Design previews must load efficiently and preserve image aspect ratios.
+
+Use thumbnail generation and suitable image compression.
+
+Keep full-resolution artwork private and accessible only to authorized staff.
+
+Provide file validation, size limits, and safe storage. Never execute uploaded files or treat them as trusted code.
+
+A future customer-facing order portal may be added, but the initial release should focus on the internal shop workflow.
+
+---
+
+# 17. PERFORMANCE AND RESPONSIVENESS
+
+The primary deployment environment is a shared shop computer with frequent billing activity.
+
+Optimize for:
+
+- Fast initial load.
+- Quick search.
+- Minimal form interaction.
+- Immediate local UI feedback where safe.
+- Reliable server confirmation.
+- Large transaction histories.
+- Image-heavy design galleries.
+- Thermal receipt printing.
+- Keyboard-first billing.
+- Clear focus indicators.
+
+Use lazy loading for suitable routes and heavy components.
+
+Paginate large datasets and optimize database queries.
+
+Use optimistic UI updates only when safe and provide rollback/error handling if a server operation fails.
+
+Never display an unconfirmed payment as completed just to make the interface feel fast.
+
+Do not add offline financial recording in the first release unless there is a fully designed, tested synchronization and reconciliation strategy. If offline support is later introduced, distinguish pending offline events from server-confirmed financial transactions.
+
+---
+
+# 18. RESPONSIVE DESIGN AND ACCESSIBILITY
+
+Design primarily for desktop and laptop screens, while supporting tablet and mobile layouts.
+
+Requirements:
+
+- Keyboard-accessible forms and dialogs.
+- Visible focus indicators.
+- Accessible labels.
+- Good contrast.
+- Screen-reader-friendly status updates.
+- Reduced-motion support.
+- Large enough touch targets.
+- Responsive tables or alternative mobile views.
+- Clear error messages next to relevant fields.
+
+Do not make essential financial information available only through color.
+
+Ensure charts and visual indicators have text-based alternatives.
+
+---
+
+# 19. DEMO MODE AND REAL DATA
+
+Provide a clearly separated demo mode to showcase the software to the client.
+
+Include realistic fictional examples such as:
+
+- A banner-printing order.
+- A visiting-card order.
+- A sticker-printing order.
+- A partial customer payment.
+- A supplier expense paid in cash.
+- A UPI payment.
+- A completed shift.
+- A cash discrepancy requiring review.
+- An order automatically assigned to an eligible sector.
+
+Use synthetic names, amounts, and references. Clearly label them as sample data.
+
+Demo mode must not contaminate production financial records.
+
+Never automatically insert demonstration transactions into the live database.
+
+Provide a safe seed/reset mechanism for development and testing environments only.
+
+---
+
+# 20. TESTING AND ACCEPTANCE CRITERIA
+
+Do not declare the project complete merely because the dashboard looks attractive.
+
+Implement automated tests for critical workflows.
+
+### Financial tests
+
+Verify that:
+
+1. A cash payment increases expected physical cash.
+2. A UPI payment does not change physical cash.
+3. A bank payment does not change physical cash.
+4. A cash expense decreases expected physical cash.
+5. A UPI or bank expense does not change physical cash.
+6. A partial payment leaves the correct balance due.
+7. Multiple payments never exceed the amount due without an explicitly supported and controlled overpayment workflow.
+8. A refund follows the configured approval and accounting workflow.
+9. A reversal preserves the original transaction and reason.
+10. Internal account transfers do not become business income or expenses.
+11. Shift closing detects differences between expected and counted cash.
+12. An internal operator handover does not create artificial income or expenses.
+
+### Order tests
+
+Verify that:
+
+- A valid order receives a unique identifier.
+- Required service-specific fields are validated.
+- Sector assignment follows configured eligibility and workload rules.
+- Unauthorized users cannot override assignment.
+- Assignment history is preserved.
+- Repeated submissions do not create duplicate orders.
+- Orders and payments remain correctly linked.
+
+### Security tests
+
+Verify that:
+
+- Unauthorized users cannot access protected routes or APIs.
+- Branch-level data is properly isolated.
+- Production users cannot change financial records outside their permissions.
+- Browser code cannot access privileged secrets.
+- Audit logs are protected against ordinary user modification.
+
+### End-to-end tests
+
+Test the real operator journey:
+
+1. Sign in.
+2. Look up or enter a customer.
+3. Select a design and service.
+4. Enter quantity and specifications.
+5. Calculate total and advance.
+6. Automatically assign the sector.
+7. Record a payment.
+8. Create the order.
+9. Print the receipt.
+10. Update production status.
+11. Record an expense.
+12. Close the shift.
+13. Count physical cash.
+14. Review the financial dashboard.
+15. Export an authorized report.
+
+Use suitable testing tools such as Vitest and Playwright.
+
+Do not fabricate test results. Report which tests actually passed and which remain incomplete.
+
+---
+
+# 21. IMPLEMENTATION PLAN
+
+Build the software in deliberate phases.
+
+## Phase 1 — Foundation
+
+- Inspect the project and existing files before changing anything.
+- Establish the design system.
+- Configure the frontend and backend.
+- Set up database migrations.
+- Implement authentication and permissions.
+- Create the main application shell.
+- Create the initial branch and sector configuration.
+- Add development/demo data.
+
+Deliverable: a working application foundation.
+
+## Phase 2 — Premium visual experience
+
+- Build the dashboard.
+- Implement navigation and page transitions.
+- Create reusable cards, tables, dialogs, filters, badges, and form components.
+- Add meaningful animations.
+- Add loading, empty, success, and error states.
+- Validate desktop and responsive layouts.
+
+Deliverable: a visually polished, coherent application.
+
+## Phase 3 — Orders and billing
+
+- Implement the service catalogue.
+- Implement design selection.
+- Build the quick-order workflow.
+- Add price calculations.
+- Implement automatic sector assignment.
+- Record payments reliably.
+- Generate order references and printable receipts.
+
+Deliverable: a functioning order-to-payment workflow.
+
+## Phase 4 — Financial accountability
+
+- Implement transaction history.
+- Implement expenses and outgoing payments.
+- Implement account transfers.
+- Build cash-drawer reconciliation.
+- Implement shifts and handovers.
+- Add audit history and approval rules.
+
+Deliverable: a tested financial control system.
+
+## Phase 5 — Production and reports
+
+- Build production queues.
+- Add status tracking.
+- Add reports and analytics.
+- Add exports.
+- Improve search and filtering.
+
+Deliverable: an integrated shop-management application.
+
+## Phase 6 — Hardening and deployment
+
+- Run automated tests.
+- Test permissions.
+- Test financial calculations.
+- Resolve defects.
+- Add error monitoring.
+- Configure backups.
+- Prepare environment variables and production configuration.
+- Deploy to the chosen hosting platform.
+- Document setup, operation, recovery, and maintenance.
+
+Deliverable: a deployment-ready release with documented limitations.
+
+Do not skip earlier phases to build superficial features from later phases.
+
+---
+
+# 22. DEVELOPMENT RULES
+
+Follow these rules throughout implementation:
+
+1. Inspect the existing repository before making changes.
+2. Reuse working code where appropriate and avoid unnecessary rewrites.
+3. Do not replace an existing backend with mock arrays or local storage.
+4. Never use fake persistence in production workflows.
+5. Do not implement a button that looks functional but does nothing.
+6. Do not hardcode business rules that should be configurable.
+7. Do not duplicate financial calculations in inconsistent places.
+8. Keep business logic separate from presentation components.
+9. Use reusable, typed components.
+10. Keep files and functions reasonably small and maintainable.
+11. Validate inputs on the server as well as the client.
+12. Use real database queries in production mode.
+13. Add meaningful error handling.
+14. Do not swallow exceptions or silently ignore failed operations.
+15. Never hardcode passwords, API keys, or service-role secrets.
+16. Do not delete existing working functionality without a clear reason.
+17. Do not claim deployment, database integration, or tests are complete unless they have actually been completed and verified.
+18. If a required external integration is unavailable, implement a clear interface and document what is missing.
+19. Ask for clarification only when an unresolved business decision genuinely affects correctness or safety.
+20. Maintain a project status document containing completed features, incomplete features, setup steps, and known limitations.
+
+Before finishing each phase, provide:
+
+- What was implemented.
+- Which files and database objects were changed.
+- How to run it.
+- Which tests were run and their actual results.
+- Any known defects.
+- The next recommended step.
+
+---
+
+# 23. FINAL PRODUCT EXPECTATION
+
+The final application should feel like a polished commercial platform built specifically for Annai Digital Printing.
+
+It should make the owner think:
+
+“This looks premium, it understands how my shop operates, it saves time, and it helps me understand every rupee entering and leaving the business.”
+
+It should make the billing operator think:
+
+“I can create orders quickly, select designs easily, collect payments, and print receipts without unnecessary steps.”
+
+It should make the production staff think:
+
+“I can clearly see which orders belong to my sector and what needs to be completed next.”
+
+It should make the owner confident that:
+
+- Every recorded receipt is traceable.
+- Every recorded expense is traceable.
+- Cash is distinguishable from UPI and bank payments.
+- Expected cash can be compared with physically counted cash.
+- Shifts and handovers have an accountable history.
+- Orders are assigned according to configured business rules.
+- Financial corrections preserve the original evidence.
+- The system can grow from Madhavaram to additional branches.
+
+**Start by inspecting the existing project, identifying the current stack and implementation status, and producing a concise technical plan. Then begin building the highest-priority working functionality. Do not stop after generating a design or a list of recommendations.**
+
+Build an excellent interface, but make the underlying business system equally excellent. The goal is a real, testable, maintainable software product—not merely an impressive screenshot.
+
+## How to get the best result from your coding tool
+
+Don’t paste the prompt and assume the whole system will be production-ready in one generation. Use it as the master specification, then make the tool implement and test one phase at a time.
+
+[Fiscaly – AI-Powered Financial Dashboard by Akhmad Maariz for dpopstudio on Dribbble](https://images.openai.com/static-rsc-4/omHv0SFzyVjgsxQtEv7IjJk_fyhX0lEViKgQvAEWhmdvD9v_c1HLojzAGZZSKN-X_uL4z1_1h1_kTjo0rXCEFjoEWTit3IBl32Rc5mkKDZwDz3SPuqpxsgivPJtLpHkPH3FOIg6PIiCKeN5N7Yc8ZJnkB3in4Crol4iJGLH_9_I?purpose=inline)
+
+1\. Dashboard and visual identity
+
+Establish the premium design system, dashboard, navigation, typography, responsive layouts, and Framer Motion interactions first.
+
+[Retail POS Dashboard – Modern Sales Experience by RP UXCollab on Dribbble](https://images.openai.com/static-rsc-4/WnhxWncoTSmEgldcPqQZuCaZ-qCK68ClYo6ORGmcBRAM2WQmgiV7tiZ4S8ko_zgV3YyfBiCbgS_xy8u0Dkb3BlcriCz9QR4HPo2gg2xY-E1yY1Tt5VWVJE5On44SfXmNJNKTA6bIgkMBFqjKquqrUuBB6ruZ4lpI1BQu6EN-a7c?purpose=inline)
+
+2\. Billing and automatic assignment
+
+Build the real order workflow, design catalogue, price calculations, payment recording, receipt printing, and sector assignment.
+
+[SAAS Dashboard With Mobile Responsive Design :: Behance](https://images.openai.com/static-rsc-4/VE0F6EaDKZpkJPWanjhpC2v0ad-mTbCyZ5g9bZKEEmPYc3IBudE5sa-NxhKRivE_6GakgdH1vxH1WIKhG3pMZT0Y6F0CvuPk5fDzSms7xpuD2CGT_gTv3otzTjBmfpwyJOWqQCZ_6Ne_kGUY2srqKF-aC3ZSy1qVwVaO6BhH-Uo?purpose=inline)
+
+3\. Financial control
+
+Implement the transaction ledger, expenses, physical cash reconciliation, shift handovers, permissions, and audit history.
+
+## Three important things before you start
+
+- Confirm the cash arrangement: Is there one shared physical கல்லா for all three sectors, or does each sector have a separate cash box? This affects the reconciliation database and workflow.
+- Use real business rules: The actual service-to-sector mapping, pricing, discounts, tax settings, employee permissions, and opening cash balance must be configured with the owner. Do not invent them.
+- Protect your first project: Use a separate development database and test financial workflows with fictional transactions before putting real business records into production.
+
+One final recommendation: make the dashboard visually impressive, but make the billing screen exceptionally fast. The owner may be attracted by the design, but the operator will judge the software by how quickly and reliably it handles customers. That combination is what will make this project stand out.

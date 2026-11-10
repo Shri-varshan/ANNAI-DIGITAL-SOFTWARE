@@ -1,0 +1,6 @@
+{
+  "name": "Annai Digital Printing Platform",
+  "description": "Production-grade printing operations, POS billing, automated sector distribution, and cash drawer (கல்லா) reconciliation for Annai Digital Printing, Chennai.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
