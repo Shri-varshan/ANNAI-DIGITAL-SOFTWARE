@@ -15,9 +15,20 @@ import { ReportsView } from './components/views/ReportsView';
 import { AuditLogView } from './components/views/AuditLogView';
 import { SettingsView } from './components/views/SettingsView';
 import { ThermalReceiptModal } from './components/common/ThermalReceipt';
+import { DesignerTokenModal } from './components/common/DesignerTokenModal';
+import { CashierFinalizeBillingModal } from './components/common/CashierFinalizeBillingModal';
 
 const AppContent: React.FC = () => {
-  const { activeView, setActiveView, receiptModalOrder, setReceiptModalOrder } = useApp();
+  const {
+    activeView,
+    setActiveView,
+    receiptModalOrder,
+    setReceiptModalOrder,
+    designerTokenOrder,
+    setDesignerTokenOrder,
+    cashierBillingOrder,
+    setCashierBillingOrder,
+  } = useApp();
 
   // Keyboard shortcut listener (e.g. F2 for quick POS order entry)
   useEffect(() => {
@@ -29,12 +40,26 @@ const AppContent: React.FC = () => {
         if (receiptModalOrder) {
           setReceiptModalOrder(null);
         }
+        if (designerTokenOrder) {
+          setDesignerTokenOrder(null);
+        }
+        if (cashierBillingOrder) {
+          setCashierBillingOrder(null);
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [setActiveView, receiptModalOrder, setReceiptModalOrder]);
+  }, [
+    setActiveView,
+    receiptModalOrder,
+    setReceiptModalOrder,
+    designerTokenOrder,
+    setDesignerTokenOrder,
+    cashierBillingOrder,
+    setCashierBillingOrder,
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased">
@@ -68,6 +93,26 @@ const AppContent: React.FC = () => {
         <ThermalReceiptModal
           order={receiptModalOrder}
           onClose={() => setReceiptModalOrder(null)}
+        />
+      )}
+
+      {/* Designer Job Slip / Token Modal */}
+      {designerTokenOrder && (
+        <DesignerTokenModal
+          order={designerTokenOrder}
+          onClose={() => setDesignerTokenOrder(null)}
+          onOpenCashierBilling={(order) => setCashierBillingOrder(order)}
+        />
+      )}
+
+      {/* Cashier Finalize & Payment Collection Modal */}
+      {cashierBillingOrder && (
+        <CashierFinalizeBillingModal
+          order={cashierBillingOrder}
+          onClose={() => setCashierBillingOrder(null)}
+          onSuccess={(updatedOrder) => {
+            setReceiptModalOrder(updatedOrder);
+          }}
         />
       )}
     </div>

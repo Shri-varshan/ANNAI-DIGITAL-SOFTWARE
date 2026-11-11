@@ -131,11 +131,18 @@ export const ProductionView: React.FC = () => {
                           <span className="font-mono font-bold text-slate-900">
                             {order.orderNumber}
                           </span>
-                          {isHighPriority && (
-                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-800 font-mono">
-                              {order.priority}
-                            </span>
-                          )}
+                          <div className="flex items-center gap-1.5">
+                            {order.designerSystemNo && (
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200 font-mono">
+                                🖥️ {order.designerSystemNo}
+                              </span>
+                            )}
+                            {isHighPriority && (
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-800 font-mono">
+                                {order.priority}
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         {/* Service & Specs */}

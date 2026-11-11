@@ -31,11 +31,19 @@ export const Sidebar: React.FC = () => {
     ['Confirmed', 'In Production', 'Quality Check'].includes(o.status)
   ).length;
 
+  const awaitingBillingCount = orders.filter((o) => o.status === 'Awaiting Billing').length;
+
   const navItems: NavItem[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'new-order', label: 'New Order (POS)', icon: PlusCircle, badge: 'F2' },
-    { id: 'orders', label: 'Orders', icon: Package, badge: orders.length },
-    { id: 'production', label: 'Production Queue', icon: Layers, badge: inProductionCount, badgeColor: 'bg-amber-100 text-amber-800' },
+    { id: 'new-order', label: 'Designer Desk (Intake)', icon: PlusCircle, badge: 'F2' },
+    {
+      id: 'orders',
+      label: 'Cashier & Orders',
+      icon: Package,
+      badge: awaitingBillingCount > 0 ? `${awaitingBillingCount} bill` : orders.length,
+      badgeColor: awaitingBillingCount > 0 ? 'bg-amber-500 text-white font-bold animate-pulse' : undefined,
+    },
+    { id: 'production', label: 'Production Queue', icon: Layers, badge: inProductionCount, badgeColor: 'bg-blue-100 text-blue-800' },
     { id: 'designs', label: 'Design Catalogue', icon: Palette },
     { id: 'customers', label: 'Customers', icon: Users },
     { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight },

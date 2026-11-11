@@ -42,6 +42,22 @@ export const INITIAL_USERS: User[] = [
     branchId: 'br-madhavaram',
   },
   {
+    id: 'usr-dinesh',
+    name: 'Dinesh S. (DTP)',
+    email: 'dinesh.dtp@annaidigtal.in',
+    role: 'DESIGNER',
+    branchId: 'br-madhavaram',
+    systemNo: 'System 01',
+  },
+  {
+    id: 'usr-anand',
+    name: 'Anand V. (DTP)',
+    email: 'anand.dtp@annaidigtal.in',
+    role: 'DESIGNER',
+    branchId: 'br-madhavaram',
+    systemNo: 'System 02',
+  },
+  {
     id: 'usr-praveen',
     name: 'Praveen Kumar',
     email: 'praveen.pos@annaidigtal.in',

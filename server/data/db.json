@@ -70,7 +70,7 @@
       "description": "High-speed 3.2m solvent printing for hoardings, star flex banners, and shop drop banners.",
       "machinery": "Flora LJ 320P 3.2m Solvent Printer (4 Spectra Polaris Heads)",
       "maxDailyCapacity": 4500,
-      "currentPendingJobs": 1,
+      "currentPendingJobs": 2,
       "capabilities": [
         "srv-flex",
         "srv-vinyl"
@@ -403,6 +403,15 @@
   ],
   "customers": [
     {
+      "id": "cust-1794381660767",
+      "name": "Murugan Tea Stall",
+      "phone": "9840199999",
+      "totalOrders": 1,
+      "totalSpent": 1778,
+      "outstandingBalance": 778,
+      "createdAt": "2026-11-11T07:21:00.767Z"
+    },
+    {
       "id": "cust-1794248230093",
       "name": "gfgfngfn",
       "phone": "9786867787",
@@ -471,6 +480,58 @@
     }
   ],
   "orders": [
+    {
+      "id": "ord-1794381660767",
+      "orderNumber": "ADP-2026-1046",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-1794381660767",
+      "customerName": "Murugan Tea Stall",
+      "customerPhone": "9840199999",
+      "serviceId": "srv-flex",
+      "serviceName": "Star Flex Banner Printing",
+      "specs": {
+        "width": 12,
+        "height": 4,
+        "artworkSupplied": true,
+        "artworkSource": "CUSTOMER_FILE",
+        "finish": "Corner Metal Eyelets",
+        "material": "Star Flex 340gsm Heavy",
+        "artworkFileName": "murugan_tea_stall_12x4.tif",
+        "quantity": 2,
+        "unit": "ft"
+      },
+      "pricing": {
+        "calculatedArea": 96,
+        "taxAmount": 0,
+        "subtotal": 1728,
+        "totalAmount": 1778,
+        "unitRate": 18,
+        "finishingCharges": 50,
+        "advancePaid": 1000,
+        "discountAmount": 0,
+        "balanceDue": 778
+      },
+      "assignedSectorId": "sec-1",
+      "assignedSectorName": "Sector 1 — Solvent & Heavy Format",
+      "assignmentReason": "Dedicated Capability: Sector 1 — Solvent & Heavy Format is the sole sector configured for Star Flex Banner Printing",
+      "isOverride": false,
+      "status": "Confirmed",
+      "paymentStatus": "Partial",
+      "priority": "NORMAL",
+      "createdAt": "2026-11-11T07:21:00.767Z",
+      "dueDate": "2026-11-12T07:21:00.767Z",
+      "operatorId": "usr-praveen",
+      "operatorName": "Billing Operator",
+      "designerSystemNo": "System 02",
+      "designerId": "usr-praveen",
+      "designerName": "Anand V.",
+      "isBilled": true,
+      "billedAt": "2026-11-11T07:21:12.352Z",
+      "cashierId": "usr-praveen",
+      "cashierName": "Praveen Kumar",
+      "creditAuthorized": false,
+      "creditReason": ""
+    },
     {
       "id": "ord-1794248230093",
       "orderNumber": "ADP-2026-1045",
@@ -691,6 +752,22 @@
   ],
   "transactions": [
     {
+      "id": "txn-1794381672352",
+      "orderId": "ord-1794381660767",
+      "orderNumber": "ADP-2026-1046",
+      "direction": "IN",
+      "amount": 1000,
+      "paymentMethod": "CASH",
+      "category": "ORDER_ADVANCE",
+      "sectorId": "sec-1",
+      "sectorName": "Sector 1 — Solvent & Heavy Format",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-praveen",
+      "operatorName": "Praveen Kumar",
+      "notes": "Advance for Star Flex Banner Printing (ADP-2026-1046) at Cashier Counter",
+      "timestamp": "2026-11-11T07:21:12.352Z"
+    },
+    {
       "id": "txn-1794248361667",
       "direction": "OUT",
       "amount": 100,
@@ -850,12 +927,39 @@
     "operatorId": "usr-praveen",
     "operatorName": "Praveen Kumar",
     "openingCash": 28000,
-    "expectedCash": 28000,
+    "expectedCash": 29000,
     "status": "OPEN",
     "notes": "Handover from Praveen Kumar. Opening physical cash: ₹28000.",
     "openedAt": "2026-11-10T04:20:59.393Z"
   },
   "auditLogs": [
+    {
+      "id": "aud-1794381672352-702",
+      "entityType": "ORDER",
+      "entityId": "ord-1794381660767",
+      "action": "BILLING_FINALIZED",
+      "performedBy": "Praveen Kumar",
+      "details": "Billing finalized by Cashier (Praveen Kumar). Qty: 2, Mat: Star Flex 340gsm Heavy, Total: ₹1778. Order Authorized for Production.",
+      "timestamp": "2026-11-11T07:21:12.352Z"
+    },
+    {
+      "id": "aud-1794381672352-616",
+      "entityType": "PAYMENT",
+      "entityId": "txn-1794381672352",
+      "action": "ADVANCE_COLLECTED",
+      "performedBy": "Praveen Kumar",
+      "details": "₹1000 via CASH collected for ADP-2026-1046 at Cashier Counter",
+      "timestamp": "2026-11-11T07:21:12.352Z"
+    },
+    {
+      "id": "aud-1794381660767-8",
+      "entityType": "ORDER",
+      "entityId": "ord-1794381660767",
+      "action": "ORDER_CREATED",
+      "performedBy": "Billing Operator",
+      "details": "Order ADP-2026-1046 created for Murugan Tea Stall. Dedicated Capability: Sector 1 — Solvent & Heavy Format is the sole sector configured for Star Flex Banner Printing",
+      "timestamp": "2026-11-11T07:21:00.767Z"
+    },
     {
       "id": "aud-1794284459393-648",
       "entityType": "SHIFT",

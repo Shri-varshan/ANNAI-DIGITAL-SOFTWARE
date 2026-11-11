@@ -6,6 +6,7 @@ import {
   DesignItem,
   Order,
   OrderSpecs,
+  OrderPricing,
   OrderStatus,
   PaymentMethod,
   Sector,
@@ -90,10 +91,37 @@ interface AppContextType {
   setLastCreatedOrder: (order: Order | null) => void;
   receiptModalOrder: Order | null;
   setReceiptModalOrder: (order: Order | null) => void;
+  designerTokenOrder: Order | null;
+  setDesignerTokenOrder: (order: Order | null) => void;
+  cashierBillingOrder: Order | null;
+  setCashierBillingOrder: (order: Order | null) => void;
   isBackendConnected: boolean;
   refreshBackendData: () => Promise<void>;
   // Actions
   createOrder: (payload: CreateOrderPayload) => Order;
+  createDesignerJobTicket: (data: {
+    customerName: string;
+    customerPhone: string;
+    companyName?: string;
+    serviceId: string;
+    designId?: string;
+    specs: OrderSpecs;
+    designerSystemNo: string;
+    priority?: 'NORMAL' | 'HIGH' | 'URGENT';
+    dueDate?: string;
+  }) => Promise<Order>;
+  finalizeCashierBilling: (data: {
+    orderId: string;
+    quantity: number;
+    material: string;
+    finish: string;
+    customerNotes?: string;
+    pricing: OrderPricing;
+    paymentMethod: PaymentMethod;
+    paymentRef?: string;
+    creditAuthorized?: boolean;
+    creditReason?: string;
+  }) => Promise<Order>;
   updateOrderStatus: (orderId: string, status: OrderStatus, notes?: string) => void;
   recordOrderPayment: (orderId: string, amount: number, method: PaymentMethod, ref?: string) => void;
   recordExpense: (data: {
@@ -179,6 +207,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [lastCreatedOrder, setLastCreatedOrder] = useState<Order | null>(null);
   const [receiptModalOrder, setReceiptModalOrder] = useState<Order | null>(null);
+  const [designerTokenOrder, setDesignerTokenOrder] = useState<Order | null>(null);
+  const [cashierBillingOrder, setCashierBillingOrder] = useState<Order | null>(null);
 
   // Sync state from Backend REST API
   const refreshBackendData = useCallback(async () => {
@@ -446,6 +476,269 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       .catch(() => setIsBackendConnected(false));
 
     return newOrder;
+  };
+
+  const createDesignerJobTicket = async (data: {
+    customerName: string;
+    customerPhone: string;
+    companyName?: string;
+    serviceId: string;
+    designId?: string;
+    specs: OrderSpecs;
+    designerSystemNo: string;
+    priority?: 'NORMAL' | 'HIGH' | 'URGENT';
+    dueDate?: string;
+  }): Promise<Order> => {
+    const service = services.find((s) => s.id === data.serviceId) || services[0];
+
+    // Sector allocation
+    let assignedSectorId = '';
+    let assignedSectorName = '';
+    let assignmentReason = '';
+
+    const eligible = sectors.filter((s) => service.eligibleSectorIds.includes(s.id));
+    if (eligible.length === 1) {
+      assignedSectorId = eligible[0].id;
+      assignedSectorName = eligible[0].name;
+      assignmentReason = `Dedicated Capability: ${eligible[0].name} for ${service.name}`;
+    } else if (eligible.length > 1) {
+      const sorted = [...eligible].sort((a, b) => a.currentPendingJobs - b.currentPendingJobs);
+      assignedSectorId = sorted[0].id;
+      assignedSectorName = sorted[0].name;
+      assignmentReason = `Auto-balanced routing to ${sorted[0].name}`;
+    } else {
+      assignedSectorId = sectors[0].id;
+      assignedSectorName = sectors[0].name;
+      assignmentReason = `Default fallback to ${sectors[0].name}`;
+    }
+
+    // Customer lookup or creation
+    let customerId = '';
+    const rawPhone = (data.customerPhone || '').trim();
+    const existingCustomer = customers.find((c) => c.phone === rawPhone && rawPhone.length > 0);
+    if (existingCustomer) {
+      customerId = existingCustomer.id;
+    } else {
+      customerId = `cust-${Date.now()}`;
+      const newCust: Customer = {
+        id: customerId,
+        name: data.customerName || 'Walk-in Customer',
+        phone: rawPhone || 'N/A',
+        companyName: data.companyName,
+        totalOrders: 1,
+        totalSpent: 0,
+        outstandingBalance: 0,
+        createdAt: new Date().toISOString(),
+      };
+      setCustomers((prev) => [newCust, ...prev]);
+    }
+
+    const orderNum = `ADP-${new Date().getFullYear()}-${1040 + orders.length + 1}`;
+    const newOrderId = `ord-${Date.now()}`;
+    const selectedDesign = designs.find((d) => d.id === data.designId);
+
+    const area = data.specs.unit === 'ft'
+      ? data.specs.width * data.specs.height
+      : Number(((data.specs.width * data.specs.height) / 144).toFixed(2));
+
+    const newOrder: Order = {
+      id: newOrderId,
+      orderNumber: orderNum,
+      branchId: activeBranch.id,
+      customerId,
+      customerName: data.customerName || 'Walk-in Customer',
+      customerPhone: rawPhone || 'N/A',
+      companyName: data.companyName,
+      serviceId: service.id,
+      serviceName: service.name,
+      designId: selectedDesign?.id,
+      designCode: selectedDesign?.code,
+      specs: {
+        ...data.specs,
+        quantity: 1, // Placeholder until cashier discussion
+      },
+      pricing: {
+        unitRate: 0,
+        calculatedArea: area,
+        subtotal: 0,
+        finishingCharges: 0,
+        discountAmount: 0,
+        taxAmount: 0,
+        totalAmount: 0,
+        advancePaid: 0,
+        balanceDue: 0,
+      },
+      assignedSectorId,
+      assignedSectorName,
+      assignmentReason,
+      isOverride: false,
+      status: 'Awaiting Billing',
+      paymentStatus: 'Unpaid',
+      priority: data.priority || 'NORMAL',
+      createdAt: new Date().toISOString(),
+      dueDate: data.dueDate || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      operatorId: currentUser.id,
+      operatorName: currentUser.name,
+      designerSystemNo: data.designerSystemNo || currentUser.systemNo || 'System 01',
+      designerId: currentUser.id,
+      designerName: currentUser.name,
+      isBilled: false,
+    };
+
+    setOrders((prev) => [newOrder, ...prev]);
+    setLastCreatedOrder(newOrder);
+    setDesignerTokenOrder(newOrder);
+
+    addAuditLog(
+      'ORDER',
+      newOrderId,
+      'DESIGN_TICKET_CREATED',
+      `Design Ticket ${orderNum} created by ${currentUser.name} on ${newOrder.designerSystemNo}. Size: ${newOrder.specs.width}x${newOrder.specs.height} ${newOrder.specs.unit}. Sent to Cashier.`
+    );
+
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...newOrder,
+        status: 'Awaiting Billing',
+      }),
+    })
+      .then((res) => {
+        if (res.ok) setIsBackendConnected(true);
+      })
+      .catch(() => setIsBackendConnected(false));
+
+    return newOrder;
+  };
+
+  const finalizeCashierBilling = async (data: {
+    orderId: string;
+    quantity: number;
+    material: string;
+    finish: string;
+    customerNotes?: string;
+    pricing: OrderPricing;
+    paymentMethod: PaymentMethod;
+    paymentRef?: string;
+    creditAuthorized?: boolean;
+    creditReason?: string;
+  }): Promise<Order> => {
+    let updatedOrder: Order | null = null;
+
+    setOrders((prev) =>
+      prev.map((ord) => {
+        if (ord.id !== data.orderId) return ord;
+
+        const paymentStatus =
+          data.pricing.balanceDue <= 0
+            ? 'Paid'
+            : data.pricing.advancePaid > 0
+            ? 'Partial'
+            : 'Unpaid';
+
+        updatedOrder = {
+          ...ord,
+          specs: {
+            ...ord.specs,
+            quantity: data.quantity,
+            material: data.material,
+            finish: data.finish,
+            customerNotes: data.customerNotes || ord.specs.customerNotes,
+          },
+          pricing: data.pricing,
+          status: 'Confirmed', // Authorized for production!
+          paymentStatus,
+          isBilled: true,
+          billedAt: new Date().toISOString(),
+          cashierId: currentUser.id,
+          cashierName: currentUser.name,
+          creditAuthorized: data.creditAuthorized,
+          creditReason: data.creditReason,
+        };
+        return updatedOrder;
+      })
+    );
+
+    // Update customer stats
+    if (updatedOrder) {
+      setCustomers((prev) =>
+        prev.map((c) =>
+          c.id === (updatedOrder as unknown as Order).customerId
+            ? {
+                ...c,
+                totalSpent: c.totalSpent + data.pricing.totalAmount,
+                outstandingBalance: c.outstandingBalance + data.pricing.balanceDue,
+              }
+            : c
+        )
+      );
+    }
+
+    // Record advance payment transaction if advance > 0
+    if (data.pricing.advancePaid > 0 && updatedOrder) {
+      const order = updatedOrder as unknown as Order;
+      const newTxn: Transaction = {
+        id: `txn-${Date.now()}`,
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        direction: 'IN',
+        amount: data.pricing.advancePaid,
+        paymentMethod: data.paymentMethod,
+        category: data.pricing.balanceDue <= 0 ? 'ORDER_FULL' : 'ORDER_ADVANCE',
+        sectorId: order.assignedSectorId,
+        sectorName: order.assignedSectorName,
+        branchId: order.branchId,
+        operatorId: currentUser.id,
+        operatorName: currentUser.name,
+        externalRef: data.paymentRef,
+        notes: `Advance for ${order.serviceName} (${order.orderNumber}) at Cashier Counter`,
+        timestamp: new Date().toISOString(),
+      };
+
+      setTransactions((prev) => [newTxn, ...prev]);
+
+      if (data.paymentMethod === 'CASH') {
+        setActiveShift((prev) => ({
+          ...prev,
+          expectedCash: prev.expectedCash + data.pricing.advancePaid,
+        }));
+      }
+
+      addAuditLog(
+        'PAYMENT',
+        newTxn.id,
+        'ADVANCE_COLLECTED',
+        `₹${data.pricing.advancePaid} via ${data.paymentMethod} collected for ${order.orderNumber} at Cashier Counter`
+      );
+    }
+
+    if (updatedOrder) {
+      const ord = updatedOrder as unknown as Order;
+      addAuditLog(
+        'ORDER',
+        ord.id,
+        'BILLING_FINALIZED',
+        `Billing finalized by Cashier (${currentUser.name}). Qty: ${data.quantity}, Mat: ${data.material}, Total: ₹${data.pricing.totalAmount}. Order Authorized for Production.`
+      );
+    }
+
+    // Call backend API
+    fetch(`/api/orders/${data.orderId}/finalize-billing`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...data,
+        cashierId: currentUser.id,
+        cashierName: currentUser.name,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) setIsBackendConnected(true);
+      })
+      .catch(() => setIsBackendConnected(false));
+
+    return updatedOrder || orders.find((o) => o.id === data.orderId)!;
   };
 
   const updateOrderStatus = (orderId: string, status: OrderStatus, notes?: string) => {
@@ -794,9 +1087,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setLastCreatedOrder,
         receiptModalOrder,
         setReceiptModalOrder,
+        designerTokenOrder,
+        setDesignerTokenOrder,
+        cashierBillingOrder,
+        setCashierBillingOrder,
         isBackendConnected,
         refreshBackendData,
         createOrder,
+        createDesignerJobTicket,
+        finalizeCashierBilling,
         updateOrderStatus,
         recordOrderPayment,
         recordExpense,

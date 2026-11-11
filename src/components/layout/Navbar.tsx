@@ -92,10 +92,10 @@ export const Navbar: React.FC = () => {
 
         <button
           onClick={() => setActiveView('new-order')}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all active:scale-95 whitespace-nowrap"
+          className="flex items-center gap-2 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all active:scale-95 whitespace-nowrap"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
-          <span>New Order</span>
+          <span>Designer Desk</span>
           <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] bg-blue-500/50 rounded font-mono">
             F2
           </kbd>
@@ -113,11 +113,13 @@ export const Navbar: React.FC = () => {
               </span>
               <span className="text-[10px] text-slate-500 font-medium leading-none whitespace-nowrap">
                 {currentUser.role === 'BILLING_OPERATOR'
-                  ? 'Operator'
+                  ? 'Cashier Counter'
                   : currentUser.role === 'OWNER'
-                  ? 'Owner'
+                  ? 'Owner / Admin'
+                  : currentUser.role === 'DESIGNER'
+                  ? `Designer (${currentUser.systemNo || 'DTP'})`
                   : currentUser.role === 'PRODUCTION_STAFF'
-                  ? 'Production'
+                  ? 'Production Floor'
                   : 'Accounts'}
               </span>
             </div>

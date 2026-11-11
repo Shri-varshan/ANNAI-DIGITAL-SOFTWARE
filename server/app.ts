@@ -168,12 +168,15 @@ app.post('/api/orders', (req: Request, res: Response) => {
   const newOrderId = `ord-${Date.now()}`;
   const selectedDesign = db.designs.find((d) => d.id === payload.designId);
 
-  const paymentStatus =
-    payload.pricing.balanceDue <= 0
-      ? 'Paid'
-      : payload.pricing.advancePaid > 0
-      ? 'Partial'
-      : 'Unpaid';
+  const isAwaitingBilling = payload.status === 'Awaiting Billing';
+
+  const paymentStatus = isAwaitingBilling
+    ? 'Unpaid'
+    : payload.pricing.balanceDue <= 0
+    ? 'Paid'
+    : payload.pricing.advancePaid > 0
+    ? 'Partial'
+    : 'Unpaid';
 
   const operatorName = payload.operatorName || 'Billing Operator';
   const operatorId = payload.operatorId || 'usr-praveen';
@@ -197,19 +200,23 @@ app.post('/api/orders', (req: Request, res: Response) => {
     assignmentReason,
     isOverride,
     overrideReason: payload.overrideReason,
-    status: 'Confirmed',
+    status: isAwaitingBilling ? 'Awaiting Billing' : 'Confirmed',
     paymentStatus,
     priority: payload.priority || 'NORMAL',
     createdAt: new Date().toISOString(),
     dueDate: payload.dueDate || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     operatorId,
     operatorName,
+    designerSystemNo: payload.designerSystemNo || 'System 01',
+    designerId: payload.designerId || operatorId,
+    designerName: payload.designerName || operatorName,
+    isBilled: !isAwaitingBilling,
   };
 
   db.orders.unshift(newOrder);
 
-  // 3. Financial Transaction Recording for Advance Payment
-  if (payload.pricing.advancePaid > 0) {
+  // 3. Financial Transaction Recording for Advance Payment (if already billed)
+  if (!isAwaitingBilling && payload.pricing.advancePaid > 0) {
     const newTxn: Transaction = {
       id: `txn-${Date.now()}`,
       orderId: newOrderId,
@@ -258,6 +265,112 @@ app.post('/api/orders', (req: Request, res: Response) => {
   saveDb(db);
 
   res.status(201).json({ success: true, order: newOrder });
+});
+
+// 4b. Cashier Finalize Billing & Authorize Production
+app.post('/api/orders/:id/finalize-billing', (req: Request, res: Response) => {
+  const db = getDb();
+  const { id } = req.params;
+  const {
+    quantity,
+    material,
+    finish,
+    customerNotes,
+    pricing,
+    paymentMethod,
+    paymentRef,
+    cashierId,
+    cashierName,
+    creditAuthorized,
+    creditReason,
+  } = req.body;
+
+  const orderIndex = db.orders.findIndex((o) => o.id === id);
+  if (orderIndex === -1) {
+    res.status(404).json({ success: false, error: 'Order not found' });
+    return;
+  }
+
+  const order = db.orders[orderIndex];
+  order.specs.quantity = Number(quantity) || 1;
+  order.specs.material = material || order.specs.material;
+  order.specs.finish = finish || order.specs.finish;
+  if (customerNotes) order.specs.customerNotes = customerNotes;
+  order.pricing = pricing;
+  order.isBilled = true;
+  order.billedAt = new Date().toISOString();
+  order.cashierId = cashierId || 'usr-praveen';
+  order.cashierName = cashierName || 'Praveen Kumar';
+  order.creditAuthorized = Boolean(creditAuthorized);
+  order.creditReason = creditReason || '';
+
+  const paymentStatus =
+    pricing.balanceDue <= 0
+      ? 'Paid'
+      : pricing.advancePaid > 0
+      ? 'Partial'
+      : 'Unpaid';
+  order.paymentStatus = paymentStatus;
+  order.status = 'Confirmed'; // Authorized for production!
+
+  // Update customer spend & balance
+  const customer = db.customers.find((c) => c.id === order.customerId);
+  if (customer) {
+    customer.totalSpent += pricing.totalAmount;
+    customer.outstandingBalance += pricing.balanceDue;
+  }
+
+  // Record Transaction if advancePaid > 0
+  if (pricing.advancePaid > 0) {
+    const newTxn: Transaction = {
+      id: `txn-${Date.now()}`,
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+      direction: 'IN',
+      amount: pricing.advancePaid,
+      paymentMethod: paymentMethod || 'CASH',
+      category: pricing.balanceDue <= 0 ? 'ORDER_FULL' : 'ORDER_ADVANCE',
+      sectorId: order.assignedSectorId,
+      sectorName: order.assignedSectorName,
+      branchId: order.branchId,
+      operatorId: order.cashierId || cashierId || 'usr-praveen',
+      operatorName: order.cashierName || cashierName || 'Praveen Kumar',
+      externalRef: paymentRef,
+      notes: `Advance for ${order.serviceName} (${order.orderNumber}) at Cashier Counter`,
+      timestamp: new Date().toISOString(),
+    };
+    db.transactions.unshift(newTxn);
+
+    // If Cash, update active shift drawer
+    if (paymentMethod === 'CASH') {
+      db.activeShift.expectedCash += pricing.advancePaid;
+      const shiftInList = db.shifts.find((s) => s.id === db.activeShift.id);
+      if (shiftInList) shiftInList.expectedCash = db.activeShift.expectedCash;
+    }
+
+    addAuditLog(
+      db,
+      'PAYMENT',
+      newTxn.id,
+      'ADVANCE_COLLECTED',
+      order.cashierName || 'Praveen Kumar',
+      `₹${pricing.advancePaid} via ${paymentMethod} collected for ${order.orderNumber} at Cashier Counter`
+    );
+  }
+
+  recalculateSectorLoads(db);
+
+  addAuditLog(
+    db,
+    'ORDER',
+    order.id,
+    'BILLING_FINALIZED',
+    order.cashierName || 'Praveen Kumar',
+    `Billing finalized by Cashier (${order.cashierName || 'Cashier'}). Qty: ${order.specs.quantity}, Mat: ${order.specs.material}, Total: ₹${pricing.totalAmount}. Order Authorized for Production.`
+  );
+
+  saveDb(db);
+  res.json({ success: true, order });
 });
 
 // 5. Update Order Status

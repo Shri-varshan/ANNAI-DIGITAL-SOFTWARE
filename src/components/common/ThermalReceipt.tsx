@@ -113,6 +113,18 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptProps> = ({ order, onCl
                   <span>SECTOR:</span>
                   <span className="font-bold">{order.assignedSectorName.split('—')[0]}</span>
                 </div>
+                {order.designerSystemNo && (
+                  <div className="flex justify-between">
+                    <span>DESIGNER:</span>
+                    <span>{order.designerSystemNo} ({order.designerName?.split(' ')[0] || 'DTP'})</span>
+                  </div>
+                )}
+                {order.cashierName && (
+                  <div className="flex justify-between">
+                    <span>CASHIER:</span>
+                    <span>{order.cashierName.split(' ')[0]}</span>
+                  </div>
+                )}
               </div>
 
               {/* Service & Item Details */}
@@ -214,6 +226,8 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptProps> = ({ order, onCl
                   <div className="font-semibold text-slate-500 text-[10px] uppercase">Production Sector</div>
                   <div className="font-bold text-blue-700 mt-0.5">{order.assignedSectorName}</div>
                   <div className="text-slate-600">Due Date: {new Date(order.dueDate).toLocaleDateString('en-IN')}</div>
+                  <div className="text-slate-600">Designer: {order.designerSystemNo || 'System 01'} ({order.designerName?.split(' ')[0] || 'DTP'})</div>
+                  {order.cashierName && <div className="text-slate-600">Cashier: {order.cashierName}</div>}
                   <div className="text-slate-600">Status: {order.status}</div>
                 </div>
               </div>

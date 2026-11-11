@@ -1,4 +1,4 @@
-export type Role = 'OWNER' | 'BRANCH_MANAGER' | 'BILLING_OPERATOR' | 'PRODUCTION_STAFF' | 'ACCOUNTANT';
+export type Role = 'OWNER' | 'BRANCH_MANAGER' | 'DESIGNER' | 'BILLING_OPERATOR' | 'PRODUCTION_STAFF' | 'ACCOUNTANT';
 
 export interface User {
   id: string;
@@ -7,6 +7,7 @@ export interface User {
   role: Role;
   avatarUrl?: string;
   branchId: string;
+  systemNo?: string; // e.g. 'System 01', 'System 02' for designers
 }
 
 export interface Branch {
@@ -79,6 +80,7 @@ export interface Customer {
 
 export type OrderStatus =
   | 'Draft'
+  | 'Awaiting Billing'
   | 'Confirmed'
   | 'Artwork Pending'
   | 'In Production'
@@ -103,6 +105,7 @@ export interface OrderSpecs {
   artworkChannel?: 'WHATSAPP' | 'PENDRIVE' | 'UPLOAD';
   shopTemplateCode?: string;
   templateModifications?: string;
+  designApproved?: boolean;
 }
 
 export interface OrderPricing {
@@ -143,6 +146,15 @@ export interface Order {
   dueDate: string;
   operatorId: string;
   operatorName: string;
+  designerSystemNo?: string;
+  designerId?: string;
+  designerName?: string;
+  cashierId?: string;
+  cashierName?: string;
+  billedAt?: string;
+  isBilled?: boolean;
+  creditAuthorized?: boolean;
+  creditReason?: string;
   collectedAt?: string;
   internalNotes?: string;
 }

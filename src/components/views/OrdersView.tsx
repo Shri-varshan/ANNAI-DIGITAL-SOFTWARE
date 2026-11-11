@@ -23,12 +23,15 @@ export const OrdersView: React.FC = () => {
     recordOrderPayment,
     setReceiptModalOrder,
     setActiveView,
+    setCashierBillingOrder,
   } = useApp();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [sectorFilter, setSectorFilter] = useState<string>('ALL');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
+  const awaitingBillingOrders = orders.filter((o) => o.status === 'Awaiting Billing');
 
   // Quick Balance Collection inside detail drawer
   const [collectAmount, setCollectAmount] = useState<number>(0);
@@ -82,9 +85,69 @@ export const OrdersView: React.FC = () => {
           onClick={() => setActiveView('new-order')}
           className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-xs"
         >
-          + Create New Order
+          + Designer Desk (Intake)
         </button>
       </div>
+
+      {/* Pending Designer Jobs Banner for Cashier */}
+      {awaitingBillingOrders.length > 0 && (
+        <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-5 shadow-xs space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
+              <h2 className="text-sm font-bold text-amber-900 tracking-tight flex items-center gap-2">
+                <span>Jobs Awaiting Cashier Billing</span>
+                <span className="bg-amber-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
+                  {awaitingBillingOrders.length} Waiting
+                </span>
+              </h2>
+            </div>
+            <span className="text-xs text-amber-800 font-medium hidden sm:inline">
+              Sent from Designer Desks · Finalize quantity, material & payment to authorize printing
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {awaitingBillingOrders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white rounded-xl p-3.5 border border-amber-200 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between gap-3"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono font-bold text-blue-900 text-xs">
+                      {order.orderNumber}
+                    </span>
+                    <span className="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                      🖥️ {order.designerSystemNo || 'System 01'}
+                    </span>
+                  </div>
+                  <div className="font-bold text-slate-900 text-sm truncate">
+                    {order.customerName}
+                  </div>
+                  <div className="text-slate-500 text-[11px] font-mono">
+                    {order.customerPhone}
+                  </div>
+                  <div className="text-xs text-slate-700 font-medium mt-1 truncate">
+                    {order.serviceName}
+                  </div>
+                  <div className="text-[11px] text-blue-700 font-mono font-semibold mt-0.5">
+                    Size: {order.specs.width} × {order.specs.height} {order.specs.unit} ({(order.specs.unit === 'ft' ? order.specs.width * order.specs.height : (order.specs.width * order.specs.height) / 144).toFixed(1)} sq.ft)
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setCashierBillingOrder(order)}
+                  className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <span>Finalize Bill & Collect Advance</span>
+                  <span className="text-blue-200">➔</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3">
@@ -213,19 +276,32 @@ export const OrdersView: React.FC = () => {
                             ? 'bg-purple-100 text-purple-800'
                             : order.status === 'Completed'
                             ? 'bg-slate-100 text-slate-800'
+                            : order.status === 'Awaiting Billing'
+                            ? 'bg-amber-100 text-amber-900 border border-amber-300 font-bold'
                             : 'bg-amber-100 text-amber-800'
                         }`}
                       >
                         {order.status}
                       </span>
+                      {order.designerSystemNo && (
+                        <span className="block text-[10px] text-slate-500 font-mono mt-0.5">
+                          🖥️ {order.designerSystemNo}
+                        </span>
+                      )}
                     </td>
 
                     <td className="py-3 px-4 text-right font-mono font-semibold text-slate-900">
-                      ₹{order.pricing.totalAmount.toLocaleString('en-IN')}
+                      {order.status === 'Awaiting Billing' ? (
+                        <span className="text-amber-700 text-xs font-semibold">Pending Billing</span>
+                      ) : (
+                        `₹${order.pricing.totalAmount.toLocaleString('en-IN')}`
+                      )}
                     </td>
 
                     <td className="py-3 px-4 text-right font-mono">
-                      {order.pricing.balanceDue > 0 ? (
+                      {order.status === 'Awaiting Billing' ? (
+                        <span className="text-slate-400 text-xs">--</span>
+                      ) : order.pricing.balanceDue > 0 ? (
                         <span className="text-red-600 font-bold">
                           ₹{order.pricing.balanceDue.toLocaleString('en-IN')}
                         </span>
@@ -236,22 +312,33 @@ export const OrdersView: React.FC = () => {
 
                     <td className="py-3 px-4 text-center" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-center gap-1.5">
-                        <button
-                          onClick={() => setReceiptModalOrder(order)}
-                          className="p-1.5 text-slate-500 hover:text-blue-600 rounded hover:bg-slate-100"
-                          title="Print Receipt / Invoice"
-                        >
-                          <Printer className="w-4 h-4" />
-                        </button>
-
-                        {order.pricing.balanceDue > 0 && (
+                        {order.status === 'Awaiting Billing' ? (
                           <button
-                            onClick={() => handleOpenCollect(order)}
-                            className="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded text-[11px] font-semibold border border-emerald-200"
-                            title="Collect Remaining Balance"
+                            onClick={() => setCashierBillingOrder(order)}
+                            className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[11px] font-bold shadow-xs transition-colors"
                           >
-                            Collect ₹
+                            Bill & Collect
                           </button>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => setReceiptModalOrder(order)}
+                              className="p-1.5 text-slate-500 hover:text-blue-600 rounded hover:bg-slate-100"
+                              title="Print Receipt / Invoice"
+                            >
+                              <Printer className="w-4 h-4" />
+                            </button>
+
+                            {order.pricing.balanceDue > 0 && (
+                              <button
+                                onClick={() => handleOpenCollect(order)}
+                                className="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded text-[11px] font-semibold border border-emerald-200"
+                                title="Collect Remaining Balance"
+                              >
+                                Settle ₹{order.pricing.balanceDue}
+                              </button>
+                            )}
+                          </>
                         )}
                       </div>
                     </td>
