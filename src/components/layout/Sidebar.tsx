@@ -25,7 +25,7 @@ interface NavItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activeView, setActiveView, orders, activeShift } = useApp();
+  const { activeView, setActiveView, orders, activeShift, currentUser } = useApp();
 
   const inProductionCount = orders.filter((o) =>
     ['Confirmed', 'In Production', 'Quality Check'].includes(o.status)
@@ -33,26 +33,85 @@ export const Sidebar: React.FC = () => {
 
   const awaitingBillingCount = orders.filter((o) => o.status === 'Awaiting Billing').length;
 
-  const navItems: NavItem[] = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'new-order', label: 'Designer Desk (Intake)', icon: PlusCircle, badge: 'F2' },
-    {
-      id: 'orders',
-      label: 'Cashier & Orders',
-      icon: Package,
-      badge: awaitingBillingCount > 0 ? `${awaitingBillingCount} bill` : orders.length,
-      badgeColor: awaitingBillingCount > 0 ? 'bg-amber-500 text-white font-bold animate-pulse' : undefined,
-    },
-    { id: 'production', label: 'Production Queue', icon: Layers, badge: inProductionCount, badgeColor: 'bg-blue-100 text-blue-800' },
-    { id: 'designs', label: 'Design Catalogue', icon: Palette },
-    { id: 'customers', label: 'Customers', icon: Users },
-    { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight },
-    { id: 'expenses', label: 'Expenses', icon: Receipt },
-    { id: 'cash-shifts', label: 'Cash & Shifts (கல்லா)', icon: Wallet, badge: `₹${(activeShift.expectedCash / 1000).toFixed(1)}k` },
-    { id: 'reports', label: 'Reports', icon: BarChart3 },
-    { id: 'audit', label: 'Audit Log', icon: ShieldCheck },
-    { id: 'settings', label: 'Settings', icon: Settings },
-  ];
+  let navItems: NavItem[] = [];
+
+  if (currentUser.role === 'DESIGNER') {
+    navItems = [
+      { id: 'designer-dashboard', label: 'Designer Dashboard', icon: LayoutDashboard },
+      { id: 'new-order', label: 'New Design Ticket', icon: PlusCircle, badge: 'F2' },
+      { id: 'orders', label: 'Track All Orders', icon: Package, badge: orders.length },
+      { id: 'designs', label: 'Design Catalogue', icon: Palette },
+      { id: 'customers', label: 'Customer Directory', icon: Users },
+    ];
+  } else if (currentUser.role === 'BILLING_OPERATOR') {
+    navItems = [
+      {
+        id: 'cashier-dashboard',
+        label: 'Cashier Dashboard',
+        icon: LayoutDashboard,
+        badge: awaitingBillingCount > 0 ? `${awaitingBillingCount} to bill` : undefined,
+        badgeColor: 'bg-amber-500 text-white font-bold animate-pulse',
+      },
+      { id: 'orders', label: 'Billing & Orders', icon: Package, badge: orders.length },
+      { id: 'new-order', label: 'Designer Desk (Intake)', icon: PlusCircle, badge: 'F2' },
+      {
+        id: 'cash-shifts',
+        label: 'Cash & Shift (கல்லா)',
+        icon: Wallet,
+        badge: `₹${(activeShift.expectedCash / 1000).toFixed(1)}k`,
+      },
+      { id: 'expenses', label: 'Expenses (Petty Cash)', icon: Receipt },
+      { id: 'customers', label: 'Customers & Balances', icon: Users },
+      { id: 'reports', label: 'Daily Reports', icon: BarChart3 },
+    ];
+  } else if (currentUser.role === 'PRODUCTION_STAFF') {
+    navItems = [
+      {
+        id: 'production',
+        label: 'Production Queue',
+        icon: Layers,
+        badge: inProductionCount,
+        badgeColor: 'bg-blue-100 text-blue-800',
+      },
+      { id: 'orders', label: 'All Jobs List', icon: Package, badge: orders.length },
+      { id: 'designs', label: 'Design Catalogue', icon: Palette },
+    ];
+  } else {
+    // Owner / Super Admin
+    navItems = [
+      { id: 'overview', label: 'Executive Overview', icon: LayoutDashboard },
+      { id: 'cashier-dashboard', label: 'Cashier Desk (கல்லா)', icon: Wallet },
+      { id: 'designer-dashboard', label: 'Designer Desk', icon: Palette },
+      { id: 'new-order', label: 'New Order (Intake)', icon: PlusCircle, badge: 'F2' },
+      {
+        id: 'orders',
+        label: 'Orders & Billing',
+        icon: Package,
+        badge: awaitingBillingCount > 0 ? `${awaitingBillingCount} bill` : orders.length,
+        badgeColor: awaitingBillingCount > 0 ? 'bg-amber-500 text-white font-bold animate-pulse' : undefined,
+      },
+      {
+        id: 'production',
+        label: 'Production Queue',
+        icon: Layers,
+        badge: inProductionCount,
+        badgeColor: 'bg-blue-100 text-blue-800',
+      },
+      { id: 'designs', label: 'Design Catalogue', icon: Palette },
+      { id: 'customers', label: 'Customers', icon: Users },
+      { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight },
+      { id: 'expenses', label: 'Expenses', icon: Receipt },
+      {
+        id: 'cash-shifts',
+        label: 'Cash & Shifts (கல்லா)',
+        icon: Wallet,
+        badge: `₹${(activeShift.expectedCash / 1000).toFixed(1)}k`,
+      },
+      { id: 'reports', label: 'Reports', icon: BarChart3 },
+      { id: 'audit', label: 'Audit Log', icon: ShieldCheck },
+      { id: 'settings', label: 'Settings', icon: Settings },
+    ];
+  }
 
   return (
     <aside className="no-print w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0 border-r border-slate-800 select-none">

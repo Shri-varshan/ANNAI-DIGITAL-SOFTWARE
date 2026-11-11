@@ -3,6 +3,8 @@ import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/layout/Navbar';
 import { Sidebar } from './components/layout/Sidebar';
 import { OverviewView } from './components/views/OverviewView';
+import { DesignerDashboardView } from './components/views/DesignerDashboardView';
+import { CashierDashboardView } from './components/views/CashierDashboardView';
 import { NewOrderView } from './components/views/NewOrderView';
 import { OrdersView } from './components/views/OrdersView';
 import { ProductionView } from './components/views/ProductionView';
@@ -73,6 +75,8 @@ const AppContent: React.FC = () => {
         <main className="flex-1 overflow-y-auto p-6 lg:p-8">
           <div className="max-w-7xl mx-auto">
             {activeView === 'overview' && <OverviewView />}
+            {activeView === 'designer-dashboard' && <DesignerDashboardView />}
+            {activeView === 'cashier-dashboard' && <CashierDashboardView />}
             {activeView === 'new-order' && <NewOrderView />}
             {activeView === 'orders' && <OrdersView />}
             {activeView === 'production' && <ProductionView />}

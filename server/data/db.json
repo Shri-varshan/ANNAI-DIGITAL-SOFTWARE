@@ -70,7 +70,7 @@
       "description": "High-speed 3.2m solvent printing for hoardings, star flex banners, and shop drop banners.",
       "machinery": "Flora LJ 320P 3.2m Solvent Printer (4 Spectra Polaris Heads)",
       "maxDailyCapacity": 4500,
-      "currentPendingJobs": 2,
+      "currentPendingJobs": 3,
       "capabilities": [
         "srv-flex",
         "srv-vinyl"
@@ -481,6 +481,62 @@
   ],
   "orders": [
     {
+      "id": "ord-1794381858361",
+      "orderNumber": "ADP-2026-1047",
+      "branchId": "br-madhavaram",
+      "customerId": "cust-1794381858052",
+      "customerName": "gfgf",
+      "customerPhone": "987654345678765",
+      "companyName": "ghng",
+      "serviceId": "srv-flex",
+      "serviceName": "Star Flex Banner Printing",
+      "specs": {
+        "width": 20,
+        "height": 10,
+        "unit": "ft",
+        "quantity": 1566,
+        "material": "Star Flex 340gsm Heavy",
+        "finish": "Plain Cut",
+        "artworkSupplied": true,
+        "artworkSource": "CUSTOMER_FILE",
+        "artworkChannel": "UPLOAD",
+        "artworkFileName": "murugan_banner_10x4.tif",
+        "customerNotes": "ghgh",
+        "designApproved": true
+      },
+      "pricing": {
+        "unitRate": 18,
+        "calculatedArea": 313200,
+        "subtotal": 5637650,
+        "finishingCharges": 50,
+        "discountAmount": 0,
+        "taxAmount": 0,
+        "totalAmount": 5637650,
+        "advancePaid": 757888,
+        "balanceDue": 4879762
+      },
+      "assignedSectorId": "sec-1",
+      "assignedSectorName": "Sector 1 — Solvent & Heavy Format",
+      "assignmentReason": "Dedicated Capability: Sector 1 — Solvent & Heavy Format is the sole sector configured for Star Flex Banner Printing",
+      "isOverride": false,
+      "status": "Confirmed",
+      "paymentStatus": "Partial",
+      "priority": "NORMAL",
+      "createdAt": "2026-11-11T07:24:18.361Z",
+      "dueDate": "2026-11-12T07:24:18.053Z",
+      "operatorId": "usr-dinesh",
+      "operatorName": "Dinesh S. (DTP)",
+      "designerSystemNo": "System 01",
+      "designerId": "usr-dinesh",
+      "designerName": "Dinesh S. (DTP)",
+      "isBilled": true,
+      "billedAt": "2026-11-11T07:25:59.193Z",
+      "cashierId": "usr-dinesh",
+      "cashierName": "Dinesh S. (DTP)",
+      "creditAuthorized": false,
+      "creditReason": ""
+    },
+    {
       "id": "ord-1794381660767",
       "orderNumber": "ADP-2026-1046",
       "branchId": "br-madhavaram",
@@ -752,6 +808,23 @@
   ],
   "transactions": [
     {
+      "id": "txn-1794381959193",
+      "orderId": "ord-1794381858361",
+      "orderNumber": "ADP-2026-1047",
+      "direction": "IN",
+      "amount": 757888,
+      "paymentMethod": "CASH",
+      "category": "ORDER_ADVANCE",
+      "sectorId": "sec-1",
+      "sectorName": "Sector 1 — Solvent & Heavy Format",
+      "branchId": "br-madhavaram",
+      "operatorId": "usr-dinesh",
+      "operatorName": "Dinesh S. (DTP)",
+      "externalRef": "",
+      "notes": "Advance for Star Flex Banner Printing (ADP-2026-1047) at Cashier Counter",
+      "timestamp": "2026-11-11T07:25:59.193Z"
+    },
+    {
       "id": "txn-1794381672352",
       "orderId": "ord-1794381660767",
       "orderNumber": "ADP-2026-1046",
@@ -927,12 +1000,39 @@
     "operatorId": "usr-praveen",
     "operatorName": "Praveen Kumar",
     "openingCash": 28000,
-    "expectedCash": 29000,
+    "expectedCash": 786888,
     "status": "OPEN",
     "notes": "Handover from Praveen Kumar. Opening physical cash: ₹28000.",
     "openedAt": "2026-11-10T04:20:59.393Z"
   },
   "auditLogs": [
+    {
+      "id": "aud-1794381959193-572",
+      "entityType": "ORDER",
+      "entityId": "ord-1794381858361",
+      "action": "BILLING_FINALIZED",
+      "performedBy": "Dinesh S. (DTP)",
+      "details": "Billing finalized by Cashier (Dinesh S. (DTP)). Qty: 1566, Mat: Star Flex 340gsm Heavy, Total: ₹5637650. Order Authorized for Production.",
+      "timestamp": "2026-11-11T07:25:59.193Z"
+    },
+    {
+      "id": "aud-1794381959193-898",
+      "entityType": "PAYMENT",
+      "entityId": "txn-1794381959193",
+      "action": "ADVANCE_COLLECTED",
+      "performedBy": "Dinesh S. (DTP)",
+      "details": "₹757888 via CASH collected for ADP-2026-1047 at Cashier Counter",
+      "timestamp": "2026-11-11T07:25:59.193Z"
+    },
+    {
+      "id": "aud-1794381858361-245",
+      "entityType": "ORDER",
+      "entityId": "ord-1794381858361",
+      "action": "ORDER_CREATED",
+      "performedBy": "Dinesh S. (DTP)",
+      "details": "Order ADP-2026-1047 created for gfgf. Dedicated Capability: Sector 1 — Solvent & Heavy Format is the sole sector configured for Star Flex Banner Printing",
+      "timestamp": "2026-11-11T07:24:18.361Z"
+    },
     {
       "id": "aud-1794381672352-702",
       "entityType": "ORDER",

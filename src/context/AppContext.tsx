@@ -31,6 +31,8 @@ import {
 
 export type AppView =
   | 'overview'
+  | 'designer-dashboard'
+  | 'cashier-dashboard'
   | 'new-order'
   | 'orders'
   | 'production'
