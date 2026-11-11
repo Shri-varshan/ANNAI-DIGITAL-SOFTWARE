@@ -162,9 +162,64 @@ const AppContext = createContext<AppContextType | null>(null);
 
 const STORAGE_KEY = 'annai_digital_printing_v1_store';
 
+function resolveSessionFromUrl(): { user: User; view: AppView } {
+  if (typeof window === 'undefined') {
+    return { user: INITIAL_USERS[0], view: 'overview' };
+  }
+
+  const port = window.location.port;
+  const path = window.location.pathname.toLowerCase();
+  const search = new URLSearchParams(window.location.search);
+  const role = (search.get('role') || search.get('login') || '').toLowerCase();
+  const system = search.get('system') || search.get('terminal') || '';
+
+  // 1. Cashier Counter: Port 3002, /cashier, ?role=cashier
+  if (port === '3002' || path.includes('cashier') || role === 'cashier' || role === 'billing') {
+    const cashier = INITIAL_USERS.find((u) => u.role === 'BILLING_OPERATOR') || INITIAL_USERS[3];
+    return { user: cashier, view: 'cashier-dashboard' };
+  }
+
+  // 2. Designer 02: Port 3004, /designer-2, ?system=2
+  if (
+    port === '3004' ||
+    path.includes('designer-2') ||
+    path.includes('system-02') ||
+    system === '2' ||
+    system === '02' ||
+    role === 'designer-2'
+  ) {
+    const d2 = INITIAL_USERS.find((u) => u.systemNo === 'System 02') || INITIAL_USERS[2];
+    return { user: d2, view: 'designer-dashboard' };
+  }
+
+  // 3. Designer 01: Port 3001, /designer, /designer-1, ?role=designer
+  if (
+    port === '3001' ||
+    path.includes('designer') ||
+    role === 'designer' ||
+    role === 'designer-1' ||
+    system === '1' ||
+    system === '01'
+  ) {
+    const d1 = INITIAL_USERS.find((u) => u.systemNo === 'System 01') || INITIAL_USERS[1];
+    return { user: d1, view: 'designer-dashboard' };
+  }
+
+  // 4. Production Floor: Port 3003, /production, ?role=production
+  if (port === '3003' || path.includes('production') || role === 'production' || role === 'print') {
+    const prod = INITIAL_USERS.find((u) => u.role === 'PRODUCTION_STAFF') || INITIAL_USERS[4];
+    return { user: prod, view: 'production' };
+  }
+
+  // 5. Owner / Admin default: Port 3000, /owner, /admin
+  const owner = INITIAL_USERS.find((u) => u.role === 'OWNER') || INITIAL_USERS[0];
+  return { user: owner, view: 'overview' };
+}
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeView, setActiveView] = useState<AppView>('overview');
-  const [currentUser, setCurrentUser] = useState<User>(INITIAL_USERS[1]); // Default to Praveen (Billing Operator)
+  const initialSession = resolveSessionFromUrl();
+  const [activeView, setActiveView] = useState<AppView>(initialSession.view);
+  const [currentUser, setCurrentUser] = useState<User>(initialSession.user);
   const [activeBranch, setActiveBranch] = useState<Branch>(INITIAL_BRANCHES[0]); // Madhavaram
   const [branches] = useState<Branch[]>(INITIAL_BRANCHES);
   const [isBackendConnected, setIsBackendConnected] = useState<boolean>(false);

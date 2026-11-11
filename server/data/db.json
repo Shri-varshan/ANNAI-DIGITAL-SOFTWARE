@@ -621,7 +621,7 @@
       "assignedSectorName": "Sector 3 — Digital Production Press & Signage",
       "assignmentReason": "Dedicated Capability: Sector 3 — Digital Production Press & Signage is the sole sector configured for Premium Visiting Cards",
       "isOverride": false,
-      "status": "Confirmed",
+      "status": "In Production",
       "paymentStatus": "Paid",
       "priority": "NORMAL",
       "createdAt": "2026-11-09T18:17:10.093Z",
@@ -1006,6 +1006,15 @@
     "openedAt": "2026-11-10T04:20:59.393Z"
   },
   "auditLogs": [
+    {
+      "id": "aud-1794389395638-544",
+      "entityType": "ORDER",
+      "entityId": "ord-1794248230093",
+      "action": "STATUS_CHANGED",
+      "performedBy": "Suresh Babu",
+      "details": "Order ADP-2026-1045 status transitioned to In Production. ",
+      "timestamp": "2026-11-11T09:29:55.638Z"
+    },
     {
       "id": "aud-1794381959193-572",
       "entityType": "ORDER",

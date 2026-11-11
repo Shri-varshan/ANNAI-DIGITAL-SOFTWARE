@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig, Plugin } from 'vite';
 import apiApp from './server/app.ts';
+import { startMultiTerminalListeners } from './server/terminals.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +14,7 @@ function expressApiPlugin(): Plugin {
     name: 'express-api-plugin',
     configureServer(server) {
       server.middlewares.use(apiApp);
+      startMultiTerminalListeners(3000);
     },
   };
 }

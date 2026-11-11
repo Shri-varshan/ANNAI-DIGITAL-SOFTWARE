@@ -3,7 +3,12 @@
 
 > **Date of Meeting**: November 10, 2026  
 > **Client**: Annai Digital Printing, Madhavaram Main Branch, Chennai  
-> **Live Prototype URL**: [http://localhost:3001/](http://localhost:3001/)  
+> **Multi-Terminal Localhost URLs**:  
+> - 👑 **Owner / Super Admin**: [http://localhost:3000/](http://localhost:3000/) (or `/owner`)  
+> - 🎨 **Designer Desk 01 (System 01 - Dinesh)**: [http://localhost:3001/](http://localhost:3001/) (or `/designer-1`)  
+> - 💳 **Cashier Counter (Kallaa - Praveen)**: [http://localhost:3002/](http://localhost:3002/) (or `/cashier`)  
+> - 🖨️ **Production Floor (Flora / Mimaki - Suresh)**: [http://localhost:3003/](http://localhost:3003/) (or `/production`)  
+> - 🎨 **Designer Desk 02 (System 02 - Anand)**: [http://localhost:3004/](http://localhost:3004/) (or `/designer-2`)  
 > **Backup Location**: `backups/` directory (Full snapshot preserved)
 
 ---
